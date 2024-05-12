@@ -1,0 +1,29 @@
+services:
+  node:
+    build:
+      dockerfile: Dockerfile
+      context: .
+    restart: unless-stopped
+    working_dir: /root
+    networks:
+      og:
+    env_file:
+      - .env
+    logging:
+      options:
+        max-size: "12m"
+        max-file: "5"
+    command:
+      - start
+    volumes:
+      - ./init.sh:/init.sh
+      - type: volume
+        source: node_data
+        target: /root
+    ports:
+      - "${P2P_PORT}:26656" # p2p
+      - "${RPC_PORT}:26657"
+volumes:
+  node_data:
+networks:
+  og:
