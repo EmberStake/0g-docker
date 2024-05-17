@@ -15,6 +15,10 @@ services:
         max-file: "5"
     command:
       - start
+      - --json-rpc.address
+      - "0.0.0.0:8545"
+      - --json-rpc.api
+      - eth,txpool,personal,net,debug,web3
     volumes:
       - ./init.sh:/init.sh
       - type: volume
@@ -23,6 +27,7 @@ services:
     ports:
       - "${P2P_PORT}:26656" # p2p
       - "${RPC_PORT}:26657"
+      - "${API_JSON_RPC_PORT}:8545"
 volumes:
   node_data:
 networks:
