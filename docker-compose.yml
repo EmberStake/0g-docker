@@ -28,7 +28,39 @@ services:
       - "${P2P_PORT}:26656" # p2p
       - "${RPC_PORT}:26657"
       - "${API_JSON_RPC_PORT}:8545"
+  storage-node:
+    build:
+      dockerfile: docker/storage.Dockerfile
+      context: .
+      args:
+        - STORAGE_NODE_TAG=${STORAGE_NODE_TAG:-v0.3.1}
+    restart: unless-stopped
+    user: zerog
+    working_dir: /home/zerog
+    profiles:
+      - storage
+    networks:
+      og:
+    env_file:
+      - .env
+    logging:
+      options:
+        max-size: "12m"
+        max-file: "5"
+    volumes:
+      - type: bind
+        source: ./configs/init-storage.sh
+        target: /init.sh
+        read_only: true
+      - type: volume
+        source: storage_data
+        target: /root
+    ports:
+      - "${STORAGE_NETWORK_ENR_TCP_PORT}:21000" # libp2p
+      - "${STORAGE_NETWORK_ENR_UDP_PORT}:22000" # discovery
+      - "${STORAGE_RPC_LISTEN_PORT}:5678" # rpc server port
 volumes:
   node_data:
+  storage_data:
 networks:
   og:

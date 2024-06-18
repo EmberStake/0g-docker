@@ -57,3 +57,30 @@ to run any commands using `0gchaind`, just exec into running node service
 docker compose exec node bash
 ```
 here you have access to `0gchaind` binary
+
+
+# Storage Node
+
+modify the variables in `.env` file under Storage configs section with your desired variables.   
+Important ones are:    
+- `STORAGE_MINER_PRIVATE_KEY` This requires a private without key funded by testnet tokens from faucet. you have two ways to get this private key
+  - create a fresh wallet on metamask, export private key and **REMOVE LEADING 0X**
+  - or use your validator account private key. export it by `0gchaind keys unsafe-export-eth-key $WALLET_NAME`
+- `STORAGE_ENR_ADDRESS` Your server public IP address
+- `STORAGE_BLOCKCHAIN_RPC_ENDPOINT`   
+
+##### build the image
+```bash
+docker compose --profile storage build
+```
+##### run the container in background 
+
+```shell
+docker compose --profile storage up -d storage-node
+```
+##### check logs
+
+```shell
+docker compose --profile storage logs -f --since 1m storage-node
+```
+make sure wallet is funded by a0gi
