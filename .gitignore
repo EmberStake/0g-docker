@@ -2,3 +2,4 @@
 .env
 /docker-compose.override.yml
 /.env.prod
+/temp/

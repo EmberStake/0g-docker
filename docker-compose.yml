@@ -48,19 +48,41 @@ services:
         max-size: "12m"
         max-file: "5"
     volumes:
-      - type: bind
-        source: ./configs/init-storage.sh
-        target: /init.sh
-        read_only: true
       - type: volume
         source: storage_data
-        target: /root
+        target: /home/zerog
     ports:
       - "${STORAGE_NETWORK_ENR_TCP_PORT}:21000" # libp2p
       - "${STORAGE_NETWORK_ENR_UDP_PORT}:22000" # discovery
       - "${STORAGE_RPC_LISTEN_PORT}:5678" # rpc server port
+  kv-node:
+    build:
+      dockerfile: docker/kv/Dockerfile
+      context: .
+      args:
+        - KV_NODE_TAG=${KV_NODE_TAG:-v1.1.0-testnet}
+    restart: unless-stopped
+    user: zerog
+    working_dir: /home/zerog
+    profiles:
+      - kv
+    networks:
+      og:
+    env_file:
+      - .env
+    logging:
+      options:
+        max-size: "12m"
+        max-file: "5"
+    volumes:
+      - type: volume
+        source: kv_data
+        target: /home/zerog
+    ports:
+      - "${KV_RPC_LISTEN_PORT}:6789" # kv rpc server port
 volumes:
   node_data:
   storage_data:
+  kv_data:
 networks:
   og:

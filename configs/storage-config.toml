@@ -170,7 +170,7 @@ db_dir = "db"
 #######################################################################
 
 # Log configuration file.
-log_config_file = "log_config"
+log_config_file = ""
 
 # Log directory.
 log_directory = "log"
