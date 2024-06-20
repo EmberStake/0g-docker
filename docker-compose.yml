@@ -1,7 +1,7 @@
 services:
   node:
     build:
-      dockerfile: Dockerfile
+      dockerfile: docker/node/Dockerfile
       context: .
     restart: unless-stopped
     working_dir: /root
@@ -45,6 +45,10 @@ services:
       - "tcp://0.0.0.0:26657"
     volumes:
       - ./init.sh:/init.sh
+      - type: bind
+        source: ./configs/node/init.sh
+        target: /init.sh
+        read_only: true
       - type: volume
         source: node_data
         target: /root
@@ -54,12 +58,11 @@ services:
       - "${API_JSON_RPC_PORT}:8545"
   storage-node:
     build:
-      dockerfile: docker/storage.Dockerfile
+      dockerfile: docker/storage/Dockerfile
       context: .
       args:
         - STORAGE_NODE_TAG=${STORAGE_NODE_TAG:-v0.3.1}
     restart: unless-stopped
-    user: zerog
     working_dir: /home/zerog
     profiles:
       - storage
