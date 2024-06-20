@@ -15,10 +15,34 @@ services:
         max-file: "5"
     command:
       - start
+      - --api.enable
+      - "true"
+      - --grpc.enable
+      - "true"
+      - --grpc.address
+      - "0.0.0.0:9090"
+      - --grpc-web.enable
+      - "true"
+      - --grpc-web.address
+      - "0.0.0.0:9091"
+      - --json-rpc.enable
+      - "true"
       - --json-rpc.address
       - "0.0.0.0:8545"
+      - --json-rpc.ws-address
+      - "0.0.0.0:8546"
       - --json-rpc.api
       - eth,txpool,personal,net,debug,web3
+      - --proxy_app
+      - "tcp://0.0.0.0:26658"
+      - --p2p.laddr
+      - "tcp://0.0.0.0:26656"
+      - --p2p.seeds
+      - ${SEEDS}
+      - --p2p.external-address
+      - ${EXTERNAL_IP}:${P2P_PORT}
+      - --rpc.laddr
+      - "tcp://0.0.0.0:26657"
     volumes:
       - ./init.sh:/init.sh
       - type: volume

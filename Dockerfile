@@ -30,6 +30,7 @@ RUN apt-get update && apt-get install -y \
     lz4 \
     git \
     iputils-ping \
+    iproute2 \
     && apt-get clean
 
 COPY --from=builder /go/bin/0gchaind /usr/local/bin/0gchaind
