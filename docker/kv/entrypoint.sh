@@ -12,4 +12,3 @@ echo "$KV_LOG_CONFIGS" > "$HOME"/configs/log_config
 sed -i "s#log_config_file = \".*\"#log_config_file = \"$HOME/configs/log_config\"#g" $HOME/configs/config.toml
 
 /usr/local/bin/zgs_kv --config /home/zerog/configs/config.toml
-#supervisord -c /etc/supervisor/conf.d/supervisord.conf

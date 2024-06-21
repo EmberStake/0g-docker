@@ -11,6 +11,9 @@ services:
     working_dir: /root
     networks:
       og:
+    environment:
+      - GOGC=${NODE_GOGC:-900}
+      - GOMEMLIMIT=${NODE_GOMEMLIMIT:-40GB}
     env_file:
       - .env
     logging:
