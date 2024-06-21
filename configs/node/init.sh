@@ -4,7 +4,7 @@
 0gchaind config keyring-backend test
 0gchaind init $MONIKER --chain-id $CHAIN_ID
 
-wget https://github.com/0glabs/0g-chain/releases/download/v0.1.0/genesis.json -O $HOME/.0gchain/config/genesis.json
+wget https://github.com/0glabs/0g-chain/releases/download/v0.2.3/genesis.json -O $HOME/.0gchain/config/genesis.json
 #Then verify the correctness of the genesis configuration file:
 0gchaind validate-genesis
 
