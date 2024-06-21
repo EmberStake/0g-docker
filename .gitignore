@@ -1,5 +1,5 @@
 /.idea/
-.env
+.env*
+!.env.sample
 /docker-compose.override.yml
-/.env.prod
 /temp/

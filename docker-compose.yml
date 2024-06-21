@@ -4,6 +4,8 @@ services:
       dockerfile: docker/node/Dockerfile
       context: .
     restart: unless-stopped
+    profiles:
+      - node
     working_dir: /root
     networks:
       og:
