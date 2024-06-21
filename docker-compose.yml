@@ -3,6 +3,8 @@ services:
     build:
       dockerfile: docker/node/Dockerfile
       context: .
+      args:
+        - NODE_TAG=${NODE_TAG:-v0.2.3}
     restart: unless-stopped
     profiles:
       - node
@@ -18,17 +20,13 @@ services:
     command:
       - start
       - --api.enable
-      - "true"
       - --grpc.enable
-      - "true"
       - --grpc.address
       - "0.0.0.0:9090"
       - --grpc-web.enable
-      - "true"
       - --grpc-web.address
       - "0.0.0.0:9091"
       - --json-rpc.enable
-      - "true"
       - --json-rpc.address
       - "0.0.0.0:8545"
       - --json-rpc.ws-address

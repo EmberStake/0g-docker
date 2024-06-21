@@ -35,7 +35,7 @@ rpc_enabled = true
 rpc_listen_address = "0.0.0.0:6789"
 
 # Zerog storage nodes to download data from.
-zgs_node_urls = "http://127.0.0.1:5678,http://127.0.0.1:5679"
+zgs_node_urls = ""
 
 #######################################################################
 ###                     Misc Config Options                         ###

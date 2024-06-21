@@ -13,8 +13,10 @@ RUN apt-get update && apt-get install -y \
     git \
     iputils-ping \
     && apt-get clean
+
+ARG NODE_TAG
 WORKDIR /root
-RUN git clone -b v0.1.0 https://github.com/0glabs/0g-chain.git
+RUN git clone -b $NODE_TAG https://github.com/0glabs/0g-chain.git
 WORKDIR 0g-chain
 RUN make install
 

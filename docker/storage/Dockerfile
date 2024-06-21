@@ -13,7 +13,7 @@ RUN apt-get update && apt-get install -y \
     libudev-dev \
     && apt-get clean
 
-ARG STORAGE_NODE_TAG=v0.3.1
+ARG STORAGE_NODE_TAG
 
 RUN git clone -b $STORAGE_NODE_TAG https://github.com/0glabs/0g-storage-node.git
 WORKDIR 0g-storage-node

@@ -13,10 +13,9 @@ RUN apt-get update && apt-get install -y \
     libudev-dev \
     && apt-get clean
 
-ARG KV_NODE_TAG=v0.3.1
+ARG KV_NODE_TAG
 
-#RUN git clone -b $KV_NODE_TAG https://github.com/0glabs/0g-storage-node.git
-RUN git clone https://github.com/0glabs/0g-storage-kv.git
+RUN git clone -b $KV_NODE_TAG https://github.com/0glabs/0g-storage-kv.git
 WORKDIR 0g-storage-kv
 RUN git submodule update --init
 RUN cargo build --release
