@@ -4,7 +4,7 @@
 # Update configs with env variables
 sed -i "s#blockchain_rpc_endpoint = \".*\"#blockchain_rpc_endpoint = \"$KV_BLOCKCHAIN_RPC_ENDPOINT\"#g" $HOME/configs/config.toml
 sed -i "s#log_contract_address = \".*\"#log_contract_address = \"$KV_LOG_CONTRACT_ADDRESS\"#g" $HOME/configs/config.toml
-sed -i "s#log_sync_start_block_number = \".*\"#log_sync_start_block_number = \"$KV_LOG_SYNC_START_BLOCK_NUMBER\"#g" $HOME/configs/config.toml
+sed -i "s#log_sync_start_block_number = .*#log_sync_start_block_number = $KV_LOG_SYNC_START_BLOCK_NUMBER#g" $HOME/configs/config.toml
 sed -i "s#zgs_node_urls = \".*\"#zgs_node_urls = \"$KV_ZGS_NODE_URLS\"#g" $HOME/configs/config.toml
 
 #update log configs
