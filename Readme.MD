@@ -1,5 +1,8 @@
 ### 0G Dockerized
-This repository is starting point to run a [Zero-Gravity](https://0g.ai/) Node/Validator using docker compose
+This repository is a complete toolkit to run [Zero-Gravity](https://0g.ai/) Nodes using docker with minimal effort. includes :
+- Node/Validator
+- Storage Node
+- Storage KV
 
 
 
