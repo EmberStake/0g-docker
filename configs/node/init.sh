@@ -14,4 +14,4 @@ sed -i '/^\[api\]/,/^\[/{s/^swagger = .*/swagger = true/}' $HOME/.0gchain/config
 
 
 ### config.toml changes
-sed -i "s|^indexer *=.*|indexer = \"kv\"|" $HOME/.0gchain/config/config.toml
+sed -i "s|^indexer *=.*|indexer = \"null\"|" $HOME/.0gchain/config/config.toml
