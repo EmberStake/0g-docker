@@ -9,12 +9,12 @@ copy `.env.sample` to `.env` and fill it with your variables
 
 build the image 
 ```bash
-docker compose build
+docker compose --profile node build
 ```
 
 run and exec into an ephemeral container:
 ```bash
-docker compose run --rm --entrypoint /bin/bash node
+docker compose --profile node run --rm --entrypoint /bin/bash node
 ```
 inside the container run init script
 ```bash
@@ -28,14 +28,18 @@ nano $HOME/.0gchain/config/config.toml
 then create a new wallet or import one
 
 ```bash
-0gchaind keys add $WALLET_NAME
+0gchaind keys add $WALLET_NAME --recover
 ```
+to import your previous node_key.json or other files you can either : 
+- use `docker cp` command in another terminal to copy your files
+- or manually edit files using `nano` and replace the content of your keys with your backups
+
+
 Now exit the container and run node service in background
 
 ```bash
-docker compose up -d
+docker compose  --profile node up -d
 ```
-
 
 ## Restore snapshot or use state sync
 first stop the running service
