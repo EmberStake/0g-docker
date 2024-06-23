@@ -13,7 +13,7 @@ services:
       og:
     environment:
       - GOGC=${NODE_GOGC:-900}
-      - GOMEMLIMIT=${NODE_GOMEMLIMIT:-40GB}
+      - GOMEMLIMIT=${NODE_GOMEMLIMIT:-40GiB}
       - CHAIN_ID=${NODE_CHAIN_ID:-zgtendermint_16600-1}
     env_file:
       - .env
