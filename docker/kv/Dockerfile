@@ -44,7 +44,6 @@ WORKDIR /home/zerog
 COPY --from=rust-builder /root/0g-storage-kv/target/release/zgs_kv /usr/local/bin/zgs_kv
 COPY --chown=zerog:zerog docker/kv/entrypoint.sh /opt/entrypoint.sh
 COPY --chown=zerog:zerog configs/kv/config.toml configs/config.toml
-COPY --chown=zerog:zerog configs/kv/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 COPY --chown=zerog:zerog configs/log_watcher.sh /usr/local/bin/log_watcher.sh
 COPY --chown=zerog:zerog configs/log_cleaner.sh /usr/local/bin/log_cleaner.sh
 RUN chmod +x /usr/local/bin/log_cleaner.sh /usr/local/bin/log_watcher.sh /opt/entrypoint.sh
