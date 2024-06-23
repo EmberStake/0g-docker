@@ -6,7 +6,7 @@ sed -i "s#miner_key = \".*\"#miner_key = \"$STORAGE_MINER_PRIVATE_KEY\"#g" $HOME
 sed -i "s#network_enr_address = \".*\"#network_enr_address = \"$STORAGE_ENR_ADDRESS\"#g" $HOME/configs/config.toml
 sed -i "s#network_enr_tcp_port = .*#network_enr_tcp_port = $STORAGE_NETWORK_ENR_TCP_PORT#g" $HOME/configs/config.toml
 sed -i "s#network_enr_udp_port = .*#network_enr_udp_port = $STORAGE_NETWORK_ENR_UDP_PORT#g" $HOME/configs/config.toml
-sed -i "s#network_boot_nodes = \".*\"#network_boot_nodes = \"$STORAGE_NETWORK_BOOT_NODES\"#g" $HOME/configs/config.toml
+sed -i "s|network_boot_nodes = .*|network_boot_nodes = $STORAGE_NETWORK_BOOT_NODES|g" $HOME/configs/config.toml
 sed -i "s#log_contract_address = \".*\"#log_contract_address = \"$STORAGE_LOG_CONTRACT_ADDRESS\"#g" $HOME/configs/config.toml
 sed -i "s#mine_contract_address = \".*\"#mine_contract_address = \"$STORAGE_MINE_CONTRACT_ADDRESS\"#g" $HOME/configs/config.toml
 sed -i "s#blockchain_rpc_endpoint = \".*\"#blockchain_rpc_endpoint = \"$STORAGE_BLOCKCHAIN_RPC_ENDPOINT\"#g" $HOME/configs/config.toml

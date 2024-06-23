@@ -14,6 +14,7 @@ services:
     environment:
       - GOGC=${NODE_GOGC:-900}
       - GOMEMLIMIT=${NODE_GOMEMLIMIT:-40GB}
+      - CHAIN_ID=${NODE_CHAIN_ID:-zgtendermint_16600-1}
     env_file:
       - .env
     logging:
@@ -65,6 +66,12 @@ services:
       context: .
       args:
         - STORAGE_NODE_TAG=${STORAGE_NODE_TAG:-v0.3.1}
+    environment:
+      - STORAGE_NETWORK_BOOT_NODES=${STORAGE_NETWORK_BOOT_NODES:-'["/ip4/54.219.26.22/udp/1234/p2p/16Uiu2HAmTVDGNhkHD98zDnJxQWu3i1FL1aFYeh9wiQTNu4pDCgps","/ip4/52.52.127.117/udp/1234/p2p/16Uiu2HAkzRjxK2gorngB1Xq84qDrT4hSVznYDHj6BkbaE4SGx9oS"]'}
+      - STORAGE_LOG_CONTRACT_ADDRESS=${STORAGE_LOG_CONTRACT_ADDRESS:-0xb8F03061969da6Ad38f0a4a9f8a86bE71dA3c8E7}
+      - STORAGE_MINE_CONTRACT_ADDRESS=${STORAGE_MINE_CONTRACT_ADDRESS:-0x96D90AAcb2D5Ab5C69c1c351B0a0F105aae490bE}
+      - STORAGE_LOG_SYNC_START_BLOCK_NUMBER=${STORAGE_LOG_SYNC_START_BLOCK_NUMBER:-334797}
+      - STORAGE_LOG_CONFIGS=${STORAGE_LOG_CONFIGS:-info,hyper=info,h2=info}
     restart: unless-stopped
     working_dir: /home/zerog
     profiles:
@@ -91,6 +98,10 @@ services:
       context: .
       args:
         - KV_NODE_TAG=${KV_NODE_TAG:-v1.1.0-testnet}
+    environment:
+      - KV_LOG_CONTRACT_ADDRESS=${KV_LOG_CONTRACT_ADDRESS:-0xb8F03061969da6Ad38f0a4a9f8a86bE71dA3c8E7}
+      - KV_LOG_SYNC_START_BLOCK_NUMBER=${KV_LOG_SYNC_START_BLOCK_NUMBER:-334797}
+      - KV_LOG_CONFIGS=${KV_LOG_CONFIGS:-info,hyper=info,h2=info}
     restart: unless-stopped
     user: zerog
     working_dir: /home/zerog
