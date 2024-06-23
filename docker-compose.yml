@@ -1,12 +1,20 @@
 services:
   node:
     build:
-      dockerfile: Dockerfile
+      dockerfile: docker/node/Dockerfile
       context: .
+      args:
+        - NODE_TAG=${NODE_TAG:-v0.2.3}
     restart: unless-stopped
+    profiles:
+      - node
     working_dir: /root
     networks:
       og:
+    environment:
+      - GOGC=${NODE_GOGC:-900}
+      - GOMEMLIMIT=${NODE_GOMEMLIMIT:-40GiB}
+      - CHAIN_ID=${NODE_CHAIN_ID:-zgtendermint_16600-1}
     env_file:
       - .env
     logging:
@@ -15,12 +23,38 @@ services:
         max-file: "5"
     command:
       - start
+      - --api.enable
+      - --grpc.enable
+      - --grpc.address
+      - "0.0.0.0:9090"
+      - --grpc-web.enable
+      - --grpc-web.address
+      - "0.0.0.0:9091"
+      - --json-rpc.enable
       - --json-rpc.address
       - "0.0.0.0:8545"
+      - --json-rpc.ws-address
+      - "0.0.0.0:8546"
       - --json-rpc.api
       - eth,txpool,personal,net,debug,web3
+      - --proxy_app
+      - "tcp://0.0.0.0:26658"
+      - --p2p.laddr
+      - "tcp://0.0.0.0:26656"
+      - --p2p.seeds
+      - ${SEEDS}
+      - --p2p.persistent_peers
+      - ${PERSISTENT_PEERS}
+      - --p2p.external-address
+      - ${EXTERNAL_IP}:${P2P_PORT}
+      - --rpc.laddr
+      - "tcp://0.0.0.0:26657"
     volumes:
       - ./init.sh:/init.sh
+      - type: bind
+        source: ./configs/node/init.sh
+        target: /init.sh
+        read_only: true
       - type: volume
         source: node_data
         target: /root
@@ -28,7 +62,70 @@ services:
       - "${P2P_PORT}:26656" # p2p
       - "${RPC_PORT}:26657"
       - "${API_JSON_RPC_PORT}:8545"
+  storage-node:
+    build:
+      dockerfile: docker/storage/Dockerfile
+      context: .
+      args:
+        - STORAGE_NODE_TAG=${STORAGE_NODE_TAG:-v0.3.1}
+    environment:
+      - STORAGE_NETWORK_BOOT_NODES=${STORAGE_NETWORK_BOOT_NODES:-["/ip4/54.219.26.22/udp/1234/p2p/16Uiu2HAmTVDGNhkHD98zDnJxQWu3i1FL1aFYeh9wiQTNu4pDCgps","/ip4/52.52.127.117/udp/1234/p2p/16Uiu2HAkzRjxK2gorngB1Xq84qDrT4hSVznYDHj6BkbaE4SGx9oS"]}
+      - STORAGE_LOG_CONTRACT_ADDRESS=${STORAGE_LOG_CONTRACT_ADDRESS:-0x429e97406E394856F7a9FE1c9728646162dEC1B6}
+      - STORAGE_MINE_CONTRACT_ADDRESS=${STORAGE_MINE_CONTRACT_ADDRESS:-0x8c5624818AC8b3F1d45f46f5d691EA68ACeE495F}
+      - STORAGE_LOG_SYNC_START_BLOCK_NUMBER=${STORAGE_LOG_SYNC_START_BLOCK_NUMBER:-1039}
+      - STORAGE_LOG_CONFIGS=${STORAGE_LOG_CONFIGS:-info,hyper=info,h2=info}
+    restart: unless-stopped
+    working_dir: /home/zerog
+    profiles:
+      - storage
+    networks:
+      og:
+    env_file:
+      - .env
+    logging:
+      options:
+        max-size: "12m"
+        max-file: "5"
+    volumes:
+      - type: volume
+        source: storage_data
+        target: /home/zerog
+    ports:
+      - "${STORAGE_NETWORK_ENR_TCP_PORT}:21000" # libp2p
+      - "${STORAGE_NETWORK_ENR_UDP_PORT}:22000" # discovery
+      - "${STORAGE_RPC_LISTEN_PORT}:5678" # rpc server port
+  kv-node:
+    build:
+      dockerfile: docker/kv/Dockerfile
+      context: .
+      args:
+        - KV_NODE_TAG=${KV_NODE_TAG:-v1.1.0-testnet}
+    environment:
+      - KV_LOG_CONTRACT_ADDRESS=${KV_LOG_CONTRACT_ADDRESS:-0x429e97406E394856F7a9FE1c9728646162dEC1B6}
+      - KV_LOG_SYNC_START_BLOCK_NUMBER=${KV_LOG_SYNC_START_BLOCK_NUMBER:-1039}
+      - KV_LOG_CONFIGS=${KV_LOG_CONFIGS:-info,hyper=info,h2=info}
+    restart: unless-stopped
+    user: zerog
+    working_dir: /home/zerog
+    profiles:
+      - kv
+    networks:
+      og:
+    env_file:
+      - .env
+    logging:
+      options:
+        max-size: "12m"
+        max-file: "5"
+    volumes:
+      - type: volume
+        source: kv_data
+        target: /home/zerog
+    ports:
+      - "${KV_RPC_LISTEN_PORT}:6789" # kv rpc server port
 volumes:
   node_data:
+  storage_data:
+  kv_data:
 networks:
   og:
