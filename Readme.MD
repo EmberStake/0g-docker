@@ -71,7 +71,7 @@ Important ones are:
   - create a fresh wallet on metamask, export private key and **REMOVE LEADING 0X**
   - or use your validator account private key. export it by `0gchaind keys unsafe-export-eth-key $WALLET_NAME`
 - `STORAGE_ENR_ADDRESS` Your server public IP address
-- `STORAGE_BLOCKCHAIN_RPC_ENDPOINT`   
+- `STORAGE_BLOCKCHAIN_RPC_ENDPOINT` If you are running a node/validator using this compose file, you can directly connect to it by setting this to `http://node:8545` , otherwise use a public RPC endpoint   
 
 ##### build the image
 ```bash
@@ -88,3 +88,10 @@ docker compose --profile storage up -d storage-node
 docker compose --profile storage logs -f --since 1m storage-node
 ```
 make sure wallet is funded by a0gi
+
+# KV Node
+modify the variables in `.env` file under Storage configs section with your desired variables.   
+Important ones are:
+
+- `STORAGE_BLOCKCHAIN_RPC_ENDPOINT` If you are running a node/validator using this compose file, you can directly connect to it by setting this to `http://node:8545` , otherwise use a public RPC endpoint   
+- `KV_ZGS_NODE_URLS` If you are running a storage node using this compose file, you can directly connect to it by setting this to `http://storage-node:5678` , otherwise use a public **Storage** node RPC endpoint   
