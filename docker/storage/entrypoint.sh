@@ -10,7 +10,7 @@ sed -i "s|network_boot_nodes = .*|network_boot_nodes = $STORAGE_NETWORK_BOOT_NOD
 sed -i "s#log_contract_address = \".*\"#log_contract_address = \"$STORAGE_LOG_CONTRACT_ADDRESS\"#g" $HOME/configs/config.toml
 sed -i "s#mine_contract_address = \".*\"#mine_contract_address = \"$STORAGE_MINE_CONTRACT_ADDRESS\"#g" $HOME/configs/config.toml
 sed -i "s#blockchain_rpc_endpoint = \".*\"#blockchain_rpc_endpoint = \"$STORAGE_BLOCKCHAIN_RPC_ENDPOINT\"#g" $HOME/configs/config.toml
-sed -i "s#log_sync_start_block_number = \".*\"#log_sync_start_block_number = \"$STORAGE_LOG_SYNC_START_BLOCK_NUMBER\"#g" $HOME/configs/config.toml
+sed -i "s#log_sync_start_block_number = .*#log_sync_start_block_number = \"$STORAGE_LOG_SYNC_START_BLOCK_NUMBER\"#g" $HOME/configs/config.toml
 #update log configs
 echo "$STORAGE_LOG_CONFIGS" > "$HOME"/configs/log_config
 sed -i "s#log_config_file = \".*\"#log_config_file = \"$HOME/configs/log_config\"#g" $HOME/configs/config.toml
