@@ -95,3 +95,18 @@ Important ones are:
 
 - `STORAGE_BLOCKCHAIN_RPC_ENDPOINT` If you are running a node/validator using this compose file, you can directly connect to it by setting this to `http://node:8545` , otherwise use a public RPC endpoint   
 - `KV_ZGS_NODE_URLS` If you are running a storage node using this compose file, you can directly connect to it by setting this to `http://storage-node:5678` , otherwise use a public **Storage** node RPC endpoint   
+
+##### build the image
+```bash
+docker compose --profile kv build
+```
+##### run the container in background
+
+```shell
+docker compose --profile kv up -d kv-node
+```
+##### check logs
+
+```shell
+docker compose --profile kv logs -f --since 1m kv-node
+```
