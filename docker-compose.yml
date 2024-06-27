@@ -8,13 +8,13 @@ services:
     restart: unless-stopped
     profiles:
       - node
-    working_dir: /root
+    working_dir: /home/zerog
     networks:
       og:
     environment:
       - GOGC=${NODE_GOGC:-900}
       - GOMEMLIMIT=${NODE_GOMEMLIMIT:-40GiB}
-      - CHAIN_ID=${NODE_CHAIN_ID:-zgtendermint_16600-1}
+      - CHAIN_ID=${NODE_CHAIN_ID:-zgtendermint_16600-2}
     env_file:
       - .env
     logging:
@@ -50,14 +50,13 @@ services:
       - --rpc.laddr
       - "tcp://0.0.0.0:26657"
     volumes:
-      - ./init.sh:/init.sh
       - type: bind
         source: ./configs/node/init.sh
         target: /init.sh
         read_only: true
       - type: volume
         source: node_data
-        target: /root
+        target: /home/zerog
     ports:
       - "${P2P_PORT}:26656" # p2p
       - "${RPC_PORT}:26657"
@@ -69,10 +68,10 @@ services:
       args:
         - STORAGE_NODE_TAG=${STORAGE_NODE_TAG:-v0.3.1}
     environment:
-      - STORAGE_NETWORK_BOOT_NODES=${STORAGE_NETWORK_BOOT_NODES:-["/ip4/54.219.26.22/udp/1234/p2p/16Uiu2HAmTVDGNhkHD98zDnJxQWu3i1FL1aFYeh9wiQTNu4pDCgps","/ip4/52.52.127.117/udp/1234/p2p/16Uiu2HAkzRjxK2gorngB1Xq84qDrT4hSVznYDHj6BkbaE4SGx9oS"]}
-      - STORAGE_LOG_CONTRACT_ADDRESS=${STORAGE_LOG_CONTRACT_ADDRESS:-0x429e97406E394856F7a9FE1c9728646162dEC1B6}
-      - STORAGE_MINE_CONTRACT_ADDRESS=${STORAGE_MINE_CONTRACT_ADDRESS:-0x8c5624818AC8b3F1d45f46f5d691EA68ACeE495F}
-      - STORAGE_LOG_SYNC_START_BLOCK_NUMBER=${STORAGE_LOG_SYNC_START_BLOCK_NUMBER:-1039}
+      - STORAGE_NETWORK_BOOT_NODES=${STORAGE_NETWORK_BOOT_NODES:-["/ip4/54.219.26.22/udp/1234/p2p/16Uiu2HAmPxGNWu9eVAQPJww79J32pTJLKGcpjRMb4Qb8xxKkyuG1","/ip4/52.52.127.117/udp/1234/p2p/16Uiu2HAm93Hd5azfhkGBbkx1zero3nYHvfjQYM2NtiW4R3r5bE2g"]}
+      - STORAGE_LOG_CONTRACT_ADDRESS=${STORAGE_LOG_CONTRACT_ADDRESS:-0x8873cc79c5b3b5666535C825205C9a128B1D75F1} #A.K.A flow contract
+      - STORAGE_MINE_CONTRACT_ADDRESS=${STORAGE_MINE_CONTRACT_ADDRESS:-0x85F6722319538A805ED5733c5F4882d96F1C7384}
+      - STORAGE_LOG_SYNC_START_BLOCK_NUMBER=${STORAGE_LOG_SYNC_START_BLOCK_NUMBER:-802}
       - STORAGE_LOG_CONFIGS=${STORAGE_LOG_CONFIGS:-info,hyper=info,h2=info}
     restart: unless-stopped
     working_dir: /home/zerog
@@ -101,8 +100,8 @@ services:
       args:
         - KV_NODE_TAG=${KV_NODE_TAG:-v1.1.0-testnet}
     environment:
-      - KV_LOG_CONTRACT_ADDRESS=${KV_LOG_CONTRACT_ADDRESS:-0x429e97406E394856F7a9FE1c9728646162dEC1B6}
-      - KV_LOG_SYNC_START_BLOCK_NUMBER=${KV_LOG_SYNC_START_BLOCK_NUMBER:-1039}
+      - KV_LOG_CONTRACT_ADDRESS=${KV_LOG_CONTRACT_ADDRESS:-0x8873cc79c5b3b5666535C825205C9a128B1D75F1} #A.K.A flow contract
+      - KV_LOG_SYNC_START_BLOCK_NUMBER=${KV_LOG_SYNC_START_BLOCK_NUMBER:-802}
       - KV_LOG_CONFIGS=${KV_LOG_CONFIGS:-info,hyper=info,h2=info}
     restart: unless-stopped
     user: zerog
