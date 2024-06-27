@@ -8,7 +8,7 @@ services:
     restart: unless-stopped
     profiles:
       - node
-    working_dir: /root
+    working_dir: /home/zerog
     networks:
       og:
     environment:
@@ -50,14 +50,13 @@ services:
       - --rpc.laddr
       - "tcp://0.0.0.0:26657"
     volumes:
-      - ./init.sh:/init.sh
       - type: bind
         source: ./configs/node/init.sh
         target: /init.sh
         read_only: true
       - type: volume
         source: node_data
-        target: /root
+        target: /home/zerog
     ports:
       - "${P2P_PORT}:26656" # p2p
       - "${RPC_PORT}:26657"

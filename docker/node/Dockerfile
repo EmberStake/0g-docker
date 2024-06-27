@@ -35,6 +35,10 @@ RUN apt-get update && apt-get install -y \
     iproute2 \
     && apt-get clean
 
+RUN useradd -m zerog
+USER zerog
+WORKDIR /home/zerog
+
 COPY --from=builder /go/bin/0gchaind /usr/local/bin/0gchaind
 
 ENTRYPOINT ["/usr/local/bin/0gchaind"]
