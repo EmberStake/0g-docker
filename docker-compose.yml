@@ -122,6 +122,29 @@ services:
         target: /home/zerog
     ports:
       - "${KV_RPC_LISTEN_PORT}:6789" # kv rpc server port
+  da-encoder:
+    build:
+      dockerfile: docker/encoder/Dockerfile
+      context: .
+      args:
+        - ENCODER_TAG=${ENCODER_TAG:-6d5bac1}
+    restart: unless-stopped
+    user: zerog
+    working_dir: /home/zerog
+    profiles:
+      - da-encoder
+    networks:
+      og:
+    env_file:
+      - .env
+    logging:
+      options:
+        max-size: "12m"
+        max-file: "5"
+    command:
+      - --config
+      - /home/zerog/configs/config.toml
+
 volumes:
   node_data:
   storage_data:
