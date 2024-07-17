@@ -91,7 +91,7 @@ services:
         target: /home/zerog
     ports:
       - "${STORAGE_NETWORK_ENR_TCP_PORT}:21000" # libp2p
-      - "${STORAGE_NETWORK_ENR_UDP_PORT}:22000" # discovery
+      - "${STORAGE_NETWORK_ENR_UDP_PORT}:22000/udp" # discovery
       - "${STORAGE_RPC_LISTEN_PORT}:5678" # rpc server port
   kv-node:
     build:
