@@ -108,6 +108,7 @@ services:
     working_dir: /home/zerog
     profiles:
       - kv
+      - da-client
     networks:
       og:
     env_file:
@@ -128,12 +129,15 @@ services:
       context: .
       args:
         - ENCODER_TAG=${ENCODER_TAG:-6d5bac1}
+    ports:
+      - "${DA_ENCODER_LISTEN_PORT}:34000" # grpc listen port
     restart: unless-stopped
     user: zerog
     working_dir: /home/zerog
     profiles:
       - da
       - da-encoder
+      - da-client
     networks:
       og:
     env_file:
@@ -179,6 +183,61 @@ services:
       - type: volume
         source: da_node_data
         target: /home/zerog
+  da-client:
+    build:
+      dockerfile: docker/da-client/Dockerfile
+      context: .
+      args:
+        - DA_CLIENT_TAG=${DA_CLIENT_TAG:-bdf8ba9}
+    ports:
+      - "${DA_NODE_LISTEN_PORT}:51001" # grpc listen port
+    restart: unless-stopped
+    user: zerog
+    working_dir: /home/zerog
+    profiles:
+      - da
+      - da-client
+    networks:
+      og:
+    logging:
+      options:
+        max-size: "12m"
+        max-file: "5"
+    volumes:
+      - type: volume
+        source: kv_data
+        target: /kv
+    depends_on:
+      - kv-node
+    command: |
+      --chain.rpc ${DA_CLIENT_ETH_RPC_ENDPOINT}
+      --chain.private-key ${DA_CLIENT_PRIVATE_KEY}
+      --chain.receipt-wait-rounds 180
+      --chain.receipt-wait-interval 1s
+      --chain.gas-limit 2000000
+      --combined-server.use-memory-db
+      --combined-server.storage.kv-db-path /kv
+      --combined-server.storage.time-to-expire 300
+      --disperser-server.grpc-port 51001
+      --batcher.da-entrance-contract 0xDFC8B84e3C98e8b550c7FEF00BCB2d8742d80a69
+      --batcher.da-signers-contract 0x0000000000000000000000000000000000001000
+      --batcher.finalizer-interval 20s
+      --batcher.confirmer-num 3
+      --batcher.max-num-retries-for-sign 3
+      --batcher.finalized-block-count 50
+      --batcher.batch-size-limit 500
+      --batcher.encoding-interval 3s
+      --batcher.encoding-request-queue-size 1
+      --batcher.pull-interval 10s
+      --batcher.signing-interval 3s
+      --batcher.signed-pull-interval 20s
+      --encoder-socket ${DA_CLIENT_ENCODER_SOCKET}
+      --encoding-timeout 600s
+      --signing-timeout 600s
+      --chain-read-timeout 12s
+      --chain-write-timeout 13s
+      --combined-server.log.level-file trace
+      --combined-server.log.level-std  trace
 
 volumes:
   node_data:
