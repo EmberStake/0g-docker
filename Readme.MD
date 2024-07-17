@@ -3,6 +3,10 @@ This repository is a complete toolkit to run [Zero-Gravity](https://0g.ai/) Node
 - Node/Validator
 - Storage Node
 - Storage KV
+- DA Client
+- DA Encoder
+
+and more to come
 
 
 
