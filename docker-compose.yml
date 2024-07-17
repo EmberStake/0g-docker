@@ -190,7 +190,7 @@ services:
       args:
         - DA_CLIENT_TAG=${DA_CLIENT_TAG:-bdf8ba9}
     ports:
-      - "${DA_NODE_LISTEN_PORT}:51001" # grpc listen port
+      - "${DA_CLIENT_LISTEN_PORT}:51001" # grpc listen port
     restart: unless-stopped
     user: zerog
     working_dir: /home/zerog
