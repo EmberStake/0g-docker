@@ -17,16 +17,16 @@ network_listen_address = "0.0.0.0"
 network_enr_address = ""
 
 # The tcp port to broadcast to peers in order to reach back for libp2p services.
-network_enr_tcp_port = 1234
+network_enr_tcp_port = 0
 
 # The udp port to broadcast to peers in order to reach back for discovery.
-network_enr_udp_port = 1234
+network_enr_udp_port = 0
 
 # The TCP port that libp2p listens on.
-network_libp2p_port = 21000
+network_libp2p_port = 0
 
 # UDP port that discovery listens on.
-network_discovery_port = 22000
+network_discovery_port = 0
 
 # Target number of connected peers.
 # network_target_peers = 50

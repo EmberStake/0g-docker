@@ -37,6 +37,10 @@ services:
       - "0.0.0.0:8546"
       - --json-rpc.api
       - eth,txpool,personal,net,debug,web3
+      - --json-rpc.block-range-cap
+      - "20000"
+      - --json-rpc.logs-cap
+      - "20000"
       - --proxy_app
       - "tcp://0.0.0.0:26658"
       - --p2p.laddr
@@ -90,8 +94,8 @@ services:
         source: storage_data
         target: /home/zerog
     ports:
-      - "${STORAGE_NETWORK_ENR_TCP_PORT}:21000" # libp2p
-      - "${STORAGE_NETWORK_ENR_UDP_PORT}:22000/udp" # discovery
+      - "${STORAGE_NETWORK_ENR_TCP_PORT}:${STORAGE_NETWORK_ENR_TCP_PORT}" # libp2p
+      - "${STORAGE_NETWORK_ENR_UDP_PORT}:${STORAGE_NETWORK_ENR_UDP_PORT}/udp" # discovery
       - "${STORAGE_RPC_LISTEN_PORT}:5678" # rpc server port
   kv-node:
     build:
