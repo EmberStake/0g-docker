@@ -1,5 +1,6 @@
 services:
   node:
+    image: ghcr.io/EmberStake/0g-docker/node:${NODE_TAG:-v0.2.3}
     build:
       dockerfile: docker/node/Dockerfile
       context: .
@@ -66,6 +67,7 @@ services:
       - "${RPC_PORT}:26657"
       - "${API_JSON_RPC_PORT}:8545"
   storage-node:
+    image: ghcr.io/EmberStake/0g-docker/storage-node:${STORAGE_NODE_TAG:-v0.3.4}
     build:
       dockerfile: docker/storage/Dockerfile
       context: .
@@ -98,6 +100,7 @@ services:
       - "${STORAGE_NETWORK_ENR_UDP_PORT}:${STORAGE_NETWORK_ENR_UDP_PORT}/udp" # discovery
       - "${STORAGE_RPC_LISTEN_PORT}:5678" # rpc server port
   kv-node:
+    image: ghcr.io/EmberStake/0g-docker/kv-node:${KV_NODE_TAG:-v1.1.0-testnet}
     build:
       dockerfile: docker/kv/Dockerfile
       context: .
@@ -128,6 +131,7 @@ services:
     ports:
       - "${KV_RPC_LISTEN_PORT}:6789" # kv rpc server port
   da-encoder:
+    image: ghcr.io/EmberStake/0g-docker/da-encoder:${ENCODER_TAG:-6d5bac1}
     build:
       dockerfile: docker/encoder/Dockerfile
       context: .
@@ -154,6 +158,7 @@ services:
       - --config
       - /home/zerog/configs/config.toml
   da-node:
+    image: ghcr.io/EmberStake/0g-docker/da-node:${DA_NODE_TAG:-8be1b87}
     build:
       dockerfile: docker/da-node/Dockerfile
       context: .
@@ -188,6 +193,7 @@ services:
         source: da_node_data
         target: /home/zerog
   da-client:
+    image: ghcr.io/EmberStake/0g-docker/da-client:${DA_CLIENT_TAG:-bdf8ba9}
     build:
       dockerfile: docker/da-client/Dockerfile
       context: .
