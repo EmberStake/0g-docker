@@ -44,7 +44,7 @@ USER zerog
 WORKDIR /home/zerog
 
 COPY --from=rust-builder /root/0g-storage-node/target/release/zgs_node /usr/local/bin/zgs_node
-COPY --chown=zerog:zerog configs/storage/config.toml /opt/configs/config.toml
+COPY --chown=zerog:zerog configs/storage/config.toml /config/config.toml
 COPY --chown=zerog:zerog configs/storage/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 COPY --chown=zerog:zerog docker/storage/entrypoint.sh /opt/entrypoint.sh
 COPY --chown=zerog:zerog configs/log_watcher.sh /usr/local/bin/log_watcher.sh

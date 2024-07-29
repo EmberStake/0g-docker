@@ -48,7 +48,7 @@ WORKDIR /home/zerog
 COPY --from=rust-builder --chown=zerog:zerog  /root/0g-da-node/params /home/zerog/params
 COPY --from=rust-builder /root/0g-da-node/target/release/server /usr/local/bin/zgda_node
 COPY --from=rust-builder /root/0g-da-node/target/release/key-gen /usr/local/bin/key-gen
-COPY --chown=zerog:zerog configs/da-node/config.toml configs/config.toml
+COPY --chown=zerog:zerog configs/da-node/config.toml /config/config.toml
 COPY --chown=zerog:zerog docker/da-node/entrypoint.sh /opt/entrypoint.sh
 RUN chmod +x /opt/entrypoint.sh
 
