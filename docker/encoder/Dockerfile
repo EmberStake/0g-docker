@@ -45,9 +45,9 @@ RUN useradd -m zerog
 USER zerog
 WORKDIR /home/zerog
 
-COPY --from=rust-builder /root/0g-da-encoder/target/release/server /usr/local/bin/zgs_encoder
+COPY --from=rust-builder /root/0g-da-encoder/target/release/server /usr/local/bin/zg_encoder
 COPY --from=rust-builder --chown=zerog:zerog  /root/0g-da-encoder/params /home/zerog/params
-COPY --chown=zerog:zerog configs/encoder/config.toml configs/config.toml
+COPY --chown=zerog:zerog configs/encoder/config.toml /config/config.toml
 EXPOSE 34000
-ENTRYPOINT ["/usr/local/bin/zgs_encoder"]
+ENTRYPOINT ["/usr/local/bin/zg_encoder"]
 CMD ["--help"]
