@@ -1,22 +1,17 @@
-FROM golang:1.22.2-bookworm as builder
+FROM golang:1.22.2-bookworm as genesis-builder
 USER root
 RUN apt-get update && apt-get install -y \
     make \
     curl \
-    nano \
-    jq \
-    dnsutils \
-    wget \
-    unzip \
-    perl \
-    lz4 \
     git \
-    iputils-ping \
     && apt-get clean
 
-ARG NODE_TAG
 WORKDIR /root
-RUN git clone -b $NODE_TAG https://github.com/0glabs/0g-chain.git
+
+# Install Cosmovisor
+RUN go install cosmossdk.io/tools/cosmovisor/cmd/cosmovisor@latest
+# Make Genesis binaries
+RUN git clone -b v0.2.5 https://github.com/0glabs/0g-chain.git
 WORKDIR 0g-chain
 RUN make install
 
@@ -28,18 +23,34 @@ RUN apt-get update && apt-get install -y \
     dnsutils \
     wget \
     unzip \
-    perl \
     lz4 \
     git \
     iputils-ping \
     iproute2 \
     && apt-get clean
 
+# Create user zerog
 RUN useradd -m zerog
 USER zerog
 WORKDIR /home/zerog
 
-COPY --from=builder /go/bin/0gchaind /usr/local/bin/0gchaind
+# Set Cosmovisor env variables
+ENV DAEMON_NAME=0gchaind
+ENV DAEMON_HOME=/home/zerog/.0gchain
+ENV DAEMON_ALLOW_DOWNLOAD_BINARIES=true
+ENV DAEMON_RESTART_AFTER_UPGRADE=true
+ENV UNSAFE_SKIP_BACKUP=true
 
-ENTRYPOINT ["/usr/local/bin/0gchaind"]
+RUN mkdir -p $DAEMON_HOME/cosmovisor/genesis/bin
+RUN ln -s $DAEMON_HOME/cosmovisor/genesis $DAEMON_HOME/cosmovisor/current
+
+ENV PATH=$PATH:$DAEMON_HOME/cosmovisor/current/bin
+
+COPY --from=genesis-builder /go/bin/cosmovisor /usr/local/bin/
+COPY --from=genesis-builder /go/bin/0gchaind $DAEMON_HOME/cosmovisor/genesis/bin/
+
+# workaround to https://github.com/cosmos/cosmos-sdk/issues/20947
+RUN mkdir -p $DAEMON_HOME/data $DAEMON_HOME/config $DAEMON_HOME/keyring-test
+
+ENTRYPOINT ["/usr/local/bin/cosmovisor"]
 CMD ["--help"]
