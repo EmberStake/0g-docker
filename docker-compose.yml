@@ -4,8 +4,6 @@ services:
     build:
       dockerfile: docker/node/Dockerfile
       context: .
-      args:
-        - NODE_TAG=${NODE_TAG:-v0.2.5}
     restart: unless-stopped
     profiles:
       - node
@@ -23,9 +21,10 @@ services:
         max-size: "12m"
         max-file: "5"
     command:
+      - run
       - start
       - --log_level
-      - info
+      - ${NODE_LOG_LEVEL:-info}
       - --log_output_console
       - --api.enable
       - --grpc.enable
@@ -64,11 +63,18 @@ services:
         read_only: true
       - type: volume
         source: node_data
-        target: /home/zerog
+        target: /home/zerog/.0gchain/data
+      - type: volume
+        source: node_config
+        target: /home/zerog/.0gchain/config
+      - type: volume
+        source: node_keyring
+        target: /home/zerog/.0gchain/keyring-test
     ports:
       - "${P2P_PORT}:26656" # p2p
       - "${RPC_PORT}:26657"
       - "${API_JSON_RPC_PORT}:8545"
+      - "${LCD_PORT}:1317"
   storage-node:
     image: ${ZG_DOCKER_IMAGE_REGISTRY:-ghcr.io/emberstake/0g-docker}/storage-node:${STORAGE_NODE_TAG:-v0.3.4}
     build:
@@ -266,7 +272,9 @@ services:
       --combined-server.log.level-std  trace
 
 volumes:
+  node_config:
   node_data:
+  node_keyring:
   storage_data:
   storage_config:
   kv_data:
