@@ -1,11 +1,11 @@
 services:
   node:
-    image: ${ZG_DOCKER_IMAGE_REGISTRY:-ghcr.io/emberstake/0g-docker}/node:${NODE_TAG:-v0.2.3}
+    image: ${ZG_DOCKER_IMAGE_REGISTRY:-ghcr.io/emberstake/0g-docker}/node:${NODE_TAG:-v0.2.5}
     build:
       dockerfile: docker/node/Dockerfile
       context: .
       args:
-        - NODE_TAG=${NODE_TAG:-v0.2.3}
+        - NODE_TAG=${NODE_TAG:-v0.2.5}
     restart: unless-stopped
     profiles:
       - node
@@ -24,6 +24,9 @@ services:
         max-file: "5"
     command:
       - start
+      - --log_level
+      - info
+      - --log_output_console
       - --api.enable
       - --grpc.enable
       - --grpc.address
