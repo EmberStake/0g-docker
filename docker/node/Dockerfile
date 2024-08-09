@@ -75,10 +75,10 @@ RUN ln -s $DAEMON_HOME/cosmovisor/genesis $DAEMON_HOME/cosmovisor/current
 
 ENV PATH=$PATH:$DAEMON_HOME/cosmovisor/current/bin
 
-COPY --from=genesis-builder /go/bin/cosmovisor /usr/local/bin/
-COPY --from=genesis-builder /go/bin/0gchaind $DAEMON_HOME/cosmovisor/genesis/bin/
-COPY --from=upgrade-v0-3-0 /go/bin/0gchaind $DAEMON_HOME/cosmovisor/upgrades/v0.3.0/bin/
-COPY --from=upgrade-v0-3-1-alpha-0 /go/bin/0gchaind $DAEMON_HOME/cosmovisor/upgrades/v0.3.1/bin/
+COPY --chown=zerog:zerog --from=genesis-builder /go/bin/cosmovisor /usr/local/bin/
+COPY --chown=zerog:zerog --from=genesis-builder /go/bin/0gchaind $DAEMON_HOME/cosmovisor/genesis/bin/
+COPY --chown=zerog:zerog --from=upgrade-v0-3-0 /go/bin/0gchaind $DAEMON_HOME/cosmovisor/upgrades/v0.3.0/bin/
+COPY --chown=zerog:zerog --from=upgrade-v0-3-1-alpha-0 /go/bin/0gchaind $DAEMON_HOME/cosmovisor/upgrades/v0.3.1/bin/
 
 # workaround to https://github.com/cosmos/cosmos-sdk/issues/20947
 RUN mkdir -p $DAEMON_HOME/data $DAEMON_HOME/config $DAEMON_HOME/keyring-test
