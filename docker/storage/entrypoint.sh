@@ -11,6 +11,7 @@ sed -i "s#network_discovery_port = .*#network_discovery_port = $STORAGE_NETWORK_
 sed -i "s|network_boot_nodes = .*|network_boot_nodes = $STORAGE_NETWORK_BOOT_NODES|g" /config/config.toml
 sed -i "s#log_contract_address = \".*\"#log_contract_address = \"$STORAGE_LOG_CONTRACT_ADDRESS\"#g" /config/config.toml
 sed -i "s#mine_contract_address = \".*\"#mine_contract_address = \"$STORAGE_MINE_CONTRACT_ADDRESS\"#g" /config/config.toml
+sed -i "s#reward_contract_address = \".*\"#reward_contract_address = \"$STORAGE_REWARD_CONTRACT_ADDRESS\"#g" /config/config.toml
 sed -i "s#blockchain_rpc_endpoint = \".*\"#blockchain_rpc_endpoint = \"$STORAGE_BLOCKCHAIN_RPC_ENDPOINT\"#g" /config/config.toml
 sed -i "s#log_sync_start_block_number = .*#log_sync_start_block_number = $STORAGE_LOG_SYNC_START_BLOCK_NUMBER#g" /config/config.toml
 #update log configs

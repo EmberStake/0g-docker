@@ -29,8 +29,8 @@ RUN git clone -b v0.3.0 https://github.com/0glabs/0g-chain.git
 WORKDIR 0g-chain
 RUN make build-release LINK_STATICALLY=true
 
-#build v0.3.1.alpha.0 binary
-FROM golang:1.22.2-bookworm as upgrade-v0-3-1-alpha-0
+#build v0.3.1.alpha.1 binary
+FROM golang:1.22.2-bookworm as upgrade-v0-3-1-alpha-1
 USER root
 RUN apt-get update && apt-get install -y \
     make \
@@ -39,7 +39,7 @@ RUN apt-get update && apt-get install -y \
     && apt-get clean
 WORKDIR /root
 # Make binaries
-RUN git clone -b v0.3.1.alpha.0 https://github.com/0glabs/0g-chain.git
+RUN git clone -b v0.3.1.alpha.1 https://github.com/0glabs/0g-chain.git
 WORKDIR 0g-chain
 RUN make build-release LINK_STATICALLY=true
 
@@ -78,7 +78,7 @@ ENV PATH=$PATH:$DAEMON_HOME/cosmovisor/current/bin
 COPY --chown=zerog:zerog --from=genesis-builder /go/bin/cosmovisor /usr/local/bin/
 COPY --chown=zerog:zerog --from=genesis-builder /go/bin/0gchaind $DAEMON_HOME/cosmovisor/genesis/bin/
 COPY --chown=zerog:zerog --from=upgrade-v0-3-0 /root/0g-chain/out/linux/0gchaind $DAEMON_HOME/cosmovisor/upgrades/v0.3.0/bin/
-COPY --chown=zerog:zerog --from=upgrade-v0-3-1-alpha-0 /root/0g-chain/out/linux/0gchaind $DAEMON_HOME/cosmovisor/upgrades/v0.3.1/bin/
+COPY --chown=zerog:zerog --from=upgrade-v0-3-1-alpha-1 /root/0g-chain/out/linux/0gchaind $DAEMON_HOME/cosmovisor/upgrades/v0.3.1/bin/
 
 # workaround to https://github.com/cosmos/cosmos-sdk/issues/20947
 RUN mkdir -p $DAEMON_HOME/data $DAEMON_HOME/config $DAEMON_HOME/keyring-test

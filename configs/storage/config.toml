@@ -204,6 +204,7 @@ db_max_num_sectors = 1000000000
 # This only applies if there is no stored shard config in db.
 # shard_position = "0/2"
 
+reward_contract_address = ""
 # The time interval to check if we should half `shard_position` to prune data.
 #
 # prune_check_time_s = 60
