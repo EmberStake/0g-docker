@@ -178,12 +178,12 @@ services:
       - --config
       - /config/config.toml
   da-node:
-    image: ${ZG_DOCKER_IMAGE_REGISTRY:-ghcr.io/emberstake/0g-docker}/da-node:${DA_NODE_TAG:-8be1b87}
+    image: ${ZG_DOCKER_IMAGE_REGISTRY:-ghcr.io/emberstake/0g-docker}/da-node:${DA_NODE_TAG:-v1.0.2}
     build:
       dockerfile: docker/da-node/Dockerfile
       context: .
       args:
-        - DA_NODE_TAG=${DA_NODE_TAG:-8be1b87}
+        - DA_NODE_TAG=${DA_NODE_TAG:-v1.0.2}
     environment:
       - DA_NODE_LOG_LEVEL=${DA_NODE_LOG_LEVEL:-info}
       - DA_NODE_ETH_RPC_ENDPOINT=${DA_NODE_ETH_RPC_ENDPOINT}

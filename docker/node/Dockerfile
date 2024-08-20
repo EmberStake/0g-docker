@@ -1,4 +1,4 @@
-FROM golang:1.22.2-bookworm as genesis-builder
+FROM golang:1.23-bookworm as genesis-builder
 USER root
 RUN apt-get update && apt-get install -y \
     make \
@@ -9,14 +9,14 @@ RUN apt-get update && apt-get install -y \
 WORKDIR /root
 
 # Install Cosmovisor
-RUN go install cosmossdk.io/tools/cosmovisor/cmd/cosmovisor@latest
+RUN go install cosmossdk.io/tools/cosmovisor/cmd/cosmovisor@v1.6.0
 # Make Genesis binaries
 RUN git clone -b v0.2.5 https://github.com/0glabs/0g-chain.git
 WORKDIR 0g-chain
 RUN make install
 
 #build v0.3.0 binary
-FROM golang:1.22.2-bookworm as upgrade-v0-3-0
+FROM golang:1.23-bookworm as upgrade-v0-3-0
 USER root
 RUN apt-get update && apt-get install -y \
     make \
@@ -30,7 +30,7 @@ WORKDIR 0g-chain
 RUN make build-release LINK_STATICALLY=true
 
 #build v0.3.1.alpha.1 binary
-FROM golang:1.22.2-bookworm as upgrade-v0-3-1-alpha-1
+FROM golang:1.23-bookworm as upgrade-v0-3-1-alpha-1
 USER root
 RUN apt-get update && apt-get install -y \
     make \
