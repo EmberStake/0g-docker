@@ -42,6 +42,3 @@ zgs_node_urls = ""
 #######################################################################
 
 log_config_file = ""
-
-# Log directory.
-log_directory = "log"

@@ -76,14 +76,14 @@ services:
       - "${API_JSON_RPC_PORT}:8545"
       - "${LCD_PORT}:1317"
   storage-node:
-    image: ${ZG_DOCKER_IMAGE_REGISTRY:-ghcr.io/emberstake/0g-docker}/storage-node:${STORAGE_NODE_TAG:-v0.4.4}
+    image: ${ZG_DOCKER_IMAGE_REGISTRY:-ghcr.io/emberstake/0g-docker}/storage-node:${STORAGE_NODE_TAG:-v0.4.6}
     build:
       dockerfile: docker/storage/Dockerfile
       context: .
       args:
-        - STORAGE_NODE_TAG=${STORAGE_NODE_TAG:-v0.4.4}
+        - STORAGE_NODE_TAG=${STORAGE_NODE_TAG:-v0.4.6}
     environment:
-      - STORAGE_NETWORK_BOOT_NODES=${STORAGE_NETWORK_BOOT_NODES:-["/ip4/54.219.26.22/udp/1234/p2p/16Uiu2HAmTVDGNhkHD98zDnJxQWu3i1FL1aFYeh9wiQTNu4pDCgps","/ip4/52.52.127.117/udp/1234/p2p/16Uiu2HAkzRjxK2gorngB1Xq84qDrT4hSVznYDHj6BkbaE4SGx9oS","/ip4/18.162.65.205/udp/1234/p2p/16Uiu2HAm2k6ua2mGgvZ8rTMV8GhpW71aVzkQWy7D37TTDuLCpgmX"]}
+      - STORAGE_NETWORK_BOOT_NODES=${STORAGE_NETWORK_BOOT_NODES:-["/ip4/54.219.26.22/udp/1234/p2p/16Uiu2HAmTVDGNhkHD98zDnJxQWu3i1FL1aFYeh9wiQTNu4pDCgps","/ip4/52.52.127.117/udp/1234/p2p/16Uiu2HAkzRjxK2gorngB1Xq84qDrT4hSVznYDHj6BkbaE4SGx9oS","/ip4/8.154.47.100/udp/1234/p2p/16Uiu2HAm2k6ua2mGgvZ8rTMV8GhpW71aVzkQWy7D37TTDuLCpgmX"]}
       - STORAGE_LOG_CONTRACT_ADDRESS=${STORAGE_LOG_CONTRACT_ADDRESS:-0xbD2C3F0E65eDF5582141C35969d66e34629cC768} #A.K.A flow contract
       - STORAGE_MINE_CONTRACT_ADDRESS=${STORAGE_MINE_CONTRACT_ADDRESS:-0x6815F41019255e00D6F34aAB8397a6Af5b6D806f}
       - STORAGE_REWARD_CONTRACT_ADDRESS=${STORAGE_REWARD_CONTRACT_ADDRESS:-0x51998C4d486F406a788B766d93510980ae1f9360}
@@ -113,12 +113,12 @@ services:
       - "${STORAGE_NETWORK_ENR_UDP_PORT}:${STORAGE_NETWORK_ENR_UDP_PORT:-1}/udp" # discovery
       - "${STORAGE_RPC_LISTEN_PORT}:5678" # rpc server port
   kv-node:
-    image: ${ZG_DOCKER_IMAGE_REGISTRY:-ghcr.io/emberstake/0g-docker}/kv-node:${KV_NODE_TAG:-v1.1.0-testnet}
+    image: ${ZG_DOCKER_IMAGE_REGISTRY:-ghcr.io/emberstake/0g-docker}/kv-node:${KV_NODE_TAG:-v1.2.1}
     build:
       dockerfile: docker/kv/Dockerfile
       context: .
       args:
-        - KV_NODE_TAG=${KV_NODE_TAG:-v1.1.0-testnet}
+        - KV_NODE_TAG=${KV_NODE_TAG:-v1.2.1}
     environment:
       - KV_LOG_CONTRACT_ADDRESS=${KV_LOG_CONTRACT_ADDRESS:-0xbD2C3F0E65eDF5582141C35969d66e34629cC768} #A.K.A flow contract
       - KV_LOG_SYNC_START_BLOCK_NUMBER=${KV_LOG_SYNC_START_BLOCK_NUMBER:-595059}
@@ -178,22 +178,23 @@ services:
       - --config
       - /config/config.toml
   da-node:
-    image: ${ZG_DOCKER_IMAGE_REGISTRY:-ghcr.io/emberstake/0g-docker}/da-node:${DA_NODE_TAG:-v1.0.2}
+    image: ${ZG_DOCKER_IMAGE_REGISTRY:-ghcr.io/emberstake/0g-docker}/da-node:${DA_NODE_TAG:-v1.1.2}
     build:
       dockerfile: docker/da-node/Dockerfile
       context: .
       args:
-        - DA_NODE_TAG=${DA_NODE_TAG:-v1.0.2}
+        - DA_NODE_TAG=${DA_NODE_TAG:-v1.1.2}
     environment:
       - DA_NODE_LOG_LEVEL=${DA_NODE_LOG_LEVEL:-info}
       - DA_NODE_ETH_RPC_ENDPOINT=${DA_NODE_ETH_RPC_ENDPOINT}
       - DA_NODE_SOCKET_ADDR=${DA_NODE_SOCKET_ADDR}
       - DA_NODE_SOCKET_PORT=${DA_NODE_SOCKET_PORT}
-      - DA_NODE_ENTRANCE_CONTRACT=${DA_NODE_ENTRANCE_CONTRACT:-0xDFC8B84e3C98e8b550c7FEF00BCB2d8742d80a69}
-      - DA_NODE_START_BLOCK_NUMBER=${DA_NODE_START_BLOCK_NUMBER:-802}
+      - DA_NODE_ENTRANCE_CONTRACT=${DA_NODE_ENTRANCE_CONTRACT:-0x857C0A28A8634614BB2C96039Cf4a20AFF709Aa9}
+      - DA_NODE_START_BLOCK_NUMBER=${DA_NODE_START_BLOCK_NUMBER:-940000}
       - DA_NODE_SIGNER_BLS_PRIVATE_KEY=${DA_NODE_SIGNER_BLS_PRIVATE_KEY}
       - DA_NODE_SIGNER_ETH_PRIVATE_KEY=${DA_NODE_SIGNER_ETH_PRIVATE_KEY}
-      - DA_NODE_ENABLE_DAS=${DA_NODE_ENABLE_DAS:-false}
+      - DA_NODE_MINER_ETH_PRIVATE_KEY=${DA_NODE_MINER_ETH_PRIVATE_KEY}
+      - DA_NODE_ENABLE_DAS=${DA_NODE_ENABLE_DAS:-true}
     ports:
       - "${DA_NODE_SOCKET_PORT}:34000" # grpc listen port
     restart: unless-stopped

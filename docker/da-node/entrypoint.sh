@@ -9,6 +9,7 @@ sed -i "s#da_entrance_address = \".*\"#da_entrance_address = \"$DA_NODE_ENTRANCE
 sed -i "s#start_block_number = .*#start_block_number = $DA_NODE_START_BLOCK_NUMBER#g" /config/config.toml
 sed -i "s#signer_bls_private_key = \".*\"#signer_bls_private_key = \"$DA_NODE_SIGNER_BLS_PRIVATE_KEY\"#g" /config/config.toml
 sed -i "s#signer_eth_private_key = \".*\"#signer_eth_private_key = \"$DA_NODE_SIGNER_ETH_PRIVATE_KEY\"#g" /config/config.toml
+sed -i "s#miner_eth_private_key = \".*\"#miner_eth_private_key = \"$DA_NODE_MINER_ETH_PRIVATE_KEY\"#g" /config/config.toml
 sed -i "s#enable_das = \".*\"#enable_das = \"$DA_NODE_ENABLE_DAS\"#g" /config/config.toml
 
 /usr/local/bin/zgda_node --config /config/config.toml
