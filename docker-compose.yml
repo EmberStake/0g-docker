@@ -76,12 +76,12 @@ services:
       - "${API_JSON_RPC_PORT}:8545"
       - "${LCD_PORT}:1317"
   storage-node:
-    image: ${ZG_DOCKER_IMAGE_REGISTRY:-ghcr.io/emberstake/0g-docker}/storage-node:${STORAGE_NODE_TAG:-v0.4.6}
+    image: ${ZG_DOCKER_IMAGE_REGISTRY:-ghcr.io/emberstake/0g-docker}/storage-node:${STORAGE_NODE_TAG:-v0.5.0}
     build:
       dockerfile: docker/storage/Dockerfile
       context: .
       args:
-        - STORAGE_NODE_TAG=${STORAGE_NODE_TAG:-v0.4.6}
+        - STORAGE_NODE_TAG=${STORAGE_NODE_TAG:-v0.5.0}
     environment:
       - STORAGE_NETWORK_BOOT_NODES=${STORAGE_NETWORK_BOOT_NODES:-["/ip4/54.219.26.22/udp/1234/p2p/16Uiu2HAmTVDGNhkHD98zDnJxQWu3i1FL1aFYeh9wiQTNu4pDCgps","/ip4/52.52.127.117/udp/1234/p2p/16Uiu2HAkzRjxK2gorngB1Xq84qDrT4hSVznYDHj6BkbaE4SGx9oS","/ip4/8.154.47.100/udp/1234/p2p/16Uiu2HAm2k6ua2mGgvZ8rTMV8GhpW71aVzkQWy7D37TTDuLCpgmX"]}
       - STORAGE_LOG_CONTRACT_ADDRESS=${STORAGE_LOG_CONTRACT_ADDRESS:-0xbD2C3F0E65eDF5582141C35969d66e34629cC768} #A.K.A flow contract
@@ -112,6 +112,28 @@ services:
       - "${STORAGE_NETWORK_ENR_TCP_PORT}:${STORAGE_NETWORK_ENR_TCP_PORT:-1}" # libp2p
       - "${STORAGE_NETWORK_ENR_UDP_PORT}:${STORAGE_NETWORK_ENR_UDP_PORT:-1}/udp" # discovery
       - "${STORAGE_RPC_LISTEN_PORT}:5678" # rpc server port
+  storage-cli:
+    image: ${ZG_DOCKER_IMAGE_REGISTRY:-ghcr.io/emberstake/0g-docker}/storage-cli:${STORAGE_CLI_TAG:-7ee7215241a4ddf729a0359b50e8338b52148887}
+    build:
+      dockerfile: docker/storage-cli/Dockerfile
+      context: .
+      args:
+        - STORAGE_CLI_TAG=${STORAGE_CLI_TAG:-7ee7215241a4ddf729a0359b50e8338b52148887}
+    environment:
+      - STORAGE_LOG_CONTRACT_ADDRESS=${STORAGE_LOG_CONTRACT_ADDRESS:-0xbD2C3F0E65eDF5582141C35969d66e34629cC768} #A.K.A flow contract
+      - BLOCKCHAIN_RPC_ENDPOINT=${STORAGE_BLOCKCHAIN_RPC_ENDPOINT:-http://node:8545}
+      - STORAGE_NODE_RPC_ENDPOINT=${STORAGE_NODE_RPC_ENDPOINT:-http://storage-node:5678}
+      - STORAGE_MINER_PRIVATE_KEY=${STORAGE_MINER_PRIVATE_KEY:-0x}
+    restart: no
+    working_dir: /home/zerog
+    profiles:
+      - storage-cli
+    networks:
+      og:
+    logging:
+      options:
+        max-size: "12m"
+        max-file: "5"
   kv-node:
     image: ${ZG_DOCKER_IMAGE_REGISTRY:-ghcr.io/emberstake/0g-docker}/kv-node:${KV_NODE_TAG:-v1.2.1}
     build:
