@@ -124,6 +124,7 @@ services:
       - BLOCKCHAIN_RPC_ENDPOINT=${STORAGE_BLOCKCHAIN_RPC_ENDPOINT:-http://node:8545}
       - STORAGE_NODE_RPC_ENDPOINT=${STORAGE_NODE_RPC_ENDPOINT:-http://storage-node:5678}
       - STORAGE_MINER_PRIVATE_KEY=${STORAGE_MINER_PRIVATE_KEY:-0x}
+      - INTERVAL=${STORAGE_CLI_MAKE_TX_INTERVAL:-60}
     restart: no
     working_dir: /home/zerog
     profiles:

@@ -32,7 +32,6 @@ USER zerog
 WORKDIR /home/zerog
 
 COPY --from=builder /root/0g-storage-client/0g-storage-client /usr/local/bin/0g-storage-client
+COPY --chown=zerog:zerog --chmod=+x docker/storage-cli/entrypoint.sh /opt/entrypoint.sh
 
-EXPOSE 51001
-ENTRYPOINT ["/usr/local/bin/0g-storage-client"]
-CMD ["--help"]
+ENTRYPOINT ["/opt/entrypoint.sh"]
