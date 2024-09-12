@@ -12,7 +12,7 @@ and more to come
 
 
 ### How to use
-You can find documentation about this repository on our website at [EmberStake - ZeroGravity](https://docs.emberstake.xyz/networks/0g-zero-gravity/guide)
+You can find documentation about this repository on our website at [EmberStake - ZeroGravity](https://docs.emberstake.xyz/networks/zero-gravity/nodes-guide/getting-started)
 
 ### Known Issues & Limitation
 
