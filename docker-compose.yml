@@ -76,14 +76,14 @@ services:
       - "${API_JSON_RPC_PORT}:8545"
       - "${LCD_PORT}:1317"
   storage-node:
-    image: ${ZG_DOCKER_IMAGE_REGISTRY:-ghcr.io/emberstake/0g-docker}/storage-node:${STORAGE_NODE_TAG:-v0.5.1}
+    image: ${ZG_DOCKER_IMAGE_REGISTRY:-ghcr.io/emberstake/0g-docker}/storage-node:${STORAGE_NODE_TAG:-v0.6.0}
     build:
       dockerfile: docker/storage/Dockerfile
       context: .
       args:
-        - STORAGE_NODE_TAG=${STORAGE_NODE_TAG:-v0.5.1}
+        - STORAGE_NODE_TAG=${STORAGE_NODE_TAG:-v0.6.0}
     environment:
-      - STORAGE_NETWORK_BOOT_NODES=${STORAGE_NETWORK_BOOT_NODES:-["/ip4/54.219.26.22/udp/1234/p2p/16Uiu2HAmTVDGNhkHD98zDnJxQWu3i1FL1aFYeh9wiQTNu4pDCgps","/ip4/52.52.127.117/udp/1234/p2p/16Uiu2HAkzRjxK2gorngB1Xq84qDrT4hSVznYDHj6BkbaE4SGx9oS","/ip4/8.154.47.100/udp/1234/p2p/16Uiu2HAm2k6ua2mGgvZ8rTMV8GhpW71aVzkQWy7D37TTDuLCpgmX"]}
+      - STORAGE_NETWORK_BOOT_NODES=${STORAGE_NETWORK_BOOT_NODES:-["/ip4/47.251.88.201/udp/1234/p2p/16Uiu2HAmFGrDV8wKToa1dd8uh6bz8bSY28n33iRP3pvfeBU6ysCw","/ip4/47.76.49.188/udp/1234/p2p/16Uiu2HAmBb7PQzvfZjHBENcF7E7mZaiHSrpBoH7mKTyNijYdqMM6"]}
       - STORAGE_LOG_CONTRACT_ADDRESS=${STORAGE_LOG_CONTRACT_ADDRESS:-0xbD2C3F0E65eDF5582141C35969d66e34629cC768} #A.K.A flow contract
       - STORAGE_MINE_CONTRACT_ADDRESS=${STORAGE_MINE_CONTRACT_ADDRESS:-0x6815F41019255e00D6F34aAB8397a6Af5b6D806f}
       - STORAGE_REWARD_CONTRACT_ADDRESS=${STORAGE_REWARD_CONTRACT_ADDRESS:-0x51998C4d486F406a788B766d93510980ae1f9360}
@@ -136,12 +136,12 @@ services:
         max-size: "12m"
         max-file: "5"
   kv-node:
-    image: ${ZG_DOCKER_IMAGE_REGISTRY:-ghcr.io/emberstake/0g-docker}/kv-node:${KV_NODE_TAG:-v1.2.1}
+    image: ${ZG_DOCKER_IMAGE_REGISTRY:-ghcr.io/emberstake/0g-docker}/kv-node:${KV_NODE_TAG:-v1.2.2}
     build:
       dockerfile: docker/kv/Dockerfile
       context: .
       args:
-        - KV_NODE_TAG=${KV_NODE_TAG:-v1.2.1}
+        - KV_NODE_TAG=${KV_NODE_TAG:-v1.2.2}
     environment:
       - KV_LOG_CONTRACT_ADDRESS=${KV_LOG_CONTRACT_ADDRESS:-0xbD2C3F0E65eDF5582141C35969d66e34629cC768} #A.K.A flow contract
       - KV_LOG_SYNC_START_BLOCK_NUMBER=${KV_LOG_SYNC_START_BLOCK_NUMBER:-595059}
