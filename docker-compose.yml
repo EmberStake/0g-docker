@@ -1,6 +1,6 @@
 services:
   node:
-    image: ${ZG_DOCKER_IMAGE_REGISTRY:-ghcr.io/emberstake/0g-docker}/node:${NODE_TAG:-v3.1.0}
+    image: ${ZG_DOCKER_IMAGE_REGISTRY:-ghcr.io/emberstake/0g-docker}/node:${NODE_TAG:-v0.4.0}
     build:
       dockerfile: docker/node/Dockerfile
       context: .
