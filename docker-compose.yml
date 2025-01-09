@@ -136,12 +136,12 @@ services:
         max-size: "12m"
         max-file: "5"
   kv-node:
-    image: ${ZG_DOCKER_IMAGE_REGISTRY:-ghcr.io/emberstake/0g-docker}/kv-node:${KV_NODE_TAG:-v1.3.0}
+    image: ${ZG_DOCKER_IMAGE_REGISTRY:-ghcr.io/emberstake/0g-docker}/kv-node:${KV_NODE_TAG:-v1.4.0}
     build:
       dockerfile: docker/kv/Dockerfile
       context: .
       args:
-        - KV_NODE_TAG=${KV_NODE_TAG:-v1.3.0}
+        - KV_NODE_TAG=${KV_NODE_TAG:-v1.4.0}
     environment:
       - KV_LOG_CONTRACT_ADDRESS=${KV_LOG_CONTRACT_ADDRESS:-0xbD2C3F0E65eDF5582141C35969d66e34629cC768} #A.K.A flow contract
       - KV_LOG_SYNC_START_BLOCK_NUMBER=${KV_LOG_SYNC_START_BLOCK_NUMBER:-595059}
