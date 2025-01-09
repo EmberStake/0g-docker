@@ -76,19 +76,19 @@ services:
       - "${API_JSON_RPC_PORT}:8545"
       - "${LCD_PORT}:1317"
   storage-node:
-    image: ${ZG_DOCKER_IMAGE_REGISTRY:-ghcr.io/emberstake/0g-docker}/storage-node:${STORAGE_NODE_TAG:-v0.8.3}
+    image: ${ZG_DOCKER_IMAGE_REGISTRY:-ghcr.io/emberstake/0g-docker}/storage-node:${STORAGE_NODE_TAG:-v0.8.4}
     build:
       dockerfile: docker/storage/Dockerfile
       context: .
       args:
-        - STORAGE_NODE_TAG=${STORAGE_NODE_TAG:-v0.8.3}
+        - STORAGE_NODE_TAG=${STORAGE_NODE_TAG:-v0.8.4}
     environment:
       - STORAGE_NETWORK_BOOT_NODES=${STORAGE_NETWORK_BOOT_NODES:-["/ip4/47.251.117.133/udp/1234/p2p/16Uiu2HAmTVDGNhkHD98zDnJxQWu3i1FL1aFYeh9wiQTNu4pDCgps","/ip4/47.76.61.226/udp/1234/p2p/16Uiu2HAm2k6ua2mGgvZ8rTMV8GhpW71aVzkQWy7D37TTDuLCpgmX"]}
       - STORAGE_LOG_CONTRACT_ADDRESS=${STORAGE_LOG_CONTRACT_ADDRESS:-0xbD2C3F0E65eDF5582141C35969d66e34629cC768} #A.K.A flow contract
       - STORAGE_MINE_CONTRACT_ADDRESS=${STORAGE_MINE_CONTRACT_ADDRESS:-0x6815F41019255e00D6F34aAB8397a6Af5b6D806f}
       - STORAGE_REWARD_CONTRACT_ADDRESS=${STORAGE_REWARD_CONTRACT_ADDRESS:-0x51998C4d486F406a788B766d93510980ae1f9360}
       - STORAGE_LOG_SYNC_START_BLOCK_NUMBER=${STORAGE_LOG_SYNC_START_BLOCK_NUMBER:-595059}
-      - STORAGE_LOG_CONFIGS=${STORAGE_LOG_CONFIGS:-info,hyper=info,h2=info}
+      - STORAGE_LOG_CONFIGS=${STORAGE_LOG_CONFIGS:-info,hyper=info,h2=info,rpc=info,discv5=info,jsonrpsee_http_server=info,multistream_select=info,libp2p_core=info,libp2p_gossipsub=info}
     restart: unless-stopped
     working_dir: /home/zerog
     profiles:
@@ -113,12 +113,12 @@ services:
       - "${STORAGE_NETWORK_ENR_UDP_PORT}:${STORAGE_NETWORK_ENR_UDP_PORT:-1}/udp" # discovery
       - "${STORAGE_RPC_LISTEN_PORT}:5678" # rpc server port
   storage-cli:
-    image: ${ZG_DOCKER_IMAGE_REGISTRY:-ghcr.io/emberstake/0g-docker}/storage-cli:${STORAGE_CLI_TAG:-7ee7215241a4ddf729a0359b50e8338b52148887}
+    image: ${ZG_DOCKER_IMAGE_REGISTRY:-ghcr.io/emberstake/0g-docker}/storage-cli:${STORAGE_CLI_TAG:-v0.6.2}
     build:
       dockerfile: docker/storage-cli/Dockerfile
       context: .
       args:
-        - STORAGE_CLI_TAG=${STORAGE_CLI_TAG:-7ee7215241a4ddf729a0359b50e8338b52148887}
+        - STORAGE_CLI_TAG=${STORAGE_CLI_TAG:-v0.6.2}
     environment:
       - STORAGE_LOG_CONTRACT_ADDRESS=${STORAGE_LOG_CONTRACT_ADDRESS:-0xbD2C3F0E65eDF5582141C35969d66e34629cC768} #A.K.A flow contract
       - BLOCKCHAIN_RPC_ENDPOINT=${STORAGE_BLOCKCHAIN_RPC_ENDPOINT:-http://node:8545}
