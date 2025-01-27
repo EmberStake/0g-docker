@@ -1,9 +1,11 @@
 services:
   node:
-    image: ${ZG_DOCKER_IMAGE_REGISTRY:-ghcr.io/emberstake/0g-docker}/node:${NODE_TAG:-v0.4.0}
+    image: ${ZG_DOCKER_IMAGE_REGISTRY:-ghcr.io/emberstake/0g-docker}/node:${NODE_TAG:-v0.5.0}
     build:
       dockerfile: docker/node/Dockerfile
       context: .
+      args:
+        - TRUSTED_PREVIOUS_IMAGE=${ZG_DOCKER_TRUSTED_PREVIOUS_NODE_IMAGE:-ghcr.io/emberstake/0g-docker/node:v0.4.0}
     restart: unless-stopped
     profiles:
       - node
@@ -240,12 +242,12 @@ services:
         source: da_node_config
         target: /config
   da-client:
-    image: ${ZG_DOCKER_IMAGE_REGISTRY:-ghcr.io/emberstake/0g-docker}/da-client:${DA_CLIENT_TAG:-bdf8ba9}
+    image: ${ZG_DOCKER_IMAGE_REGISTRY:-ghcr.io/emberstake/0g-docker}/da-client:${DA_CLIENT_TAG:-5476fb1}
     build:
       dockerfile: docker/da-client/Dockerfile
       context: .
       args:
-        - DA_CLIENT_TAG=${DA_CLIENT_TAG:-bdf8ba9}
+        - DA_CLIENT_TAG=${DA_CLIENT_TAG:-5476fb1}
     ports:
       - "${DA_CLIENT_LISTEN_PORT}:51001" # grpc listen port
     restart: unless-stopped
