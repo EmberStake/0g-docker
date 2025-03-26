@@ -22,7 +22,6 @@ while true; do
     # Upload the file to the blockchain storage
     0g-storage-client upload \
     --url $BLOCKCHAIN_RPC_ENDPOINT \
-    --contract $STORAGE_LOG_CONTRACT_ADDRESS \
     --key $STORAGE_MINER_PRIVATE_KEY \
     --node $STORAGE_NODE_RPC_ENDPOINT \
     --file $INPUT_FILE_PATH \
