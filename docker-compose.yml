@@ -78,12 +78,12 @@ services:
       - "${API_JSON_RPC_PORT}:8545"
       - "${LCD_PORT}:1317"
   storage-node:
-    image: ${ZG_DOCKER_IMAGE_REGISTRY:-ghcr.io/emberstake/0g-docker}/storage-node:${STORAGE_NODE_TAG:-v0.8.4}
+    image: ${ZG_DOCKER_IMAGE_REGISTRY:-ghcr.io/emberstake/0g-docker}/storage-node:${STORAGE_NODE_TAG:-v0.8.7}
     build:
       dockerfile: docker/storage/Dockerfile
       context: .
       args:
-        - STORAGE_NODE_TAG=${STORAGE_NODE_TAG:-v0.8.4}
+        - STORAGE_NODE_TAG=${STORAGE_NODE_TAG:-v0.8.7}
     environment:
       - STORAGE_NETWORK_BOOT_NODES=${STORAGE_NETWORK_BOOT_NODES:-["/ip4/47.251.117.133/udp/1234/p2p/16Uiu2HAmTVDGNhkHD98zDnJxQWu3i1FL1aFYeh9wiQTNu4pDCgps","/ip4/47.76.61.226/udp/1234/p2p/16Uiu2HAm2k6ua2mGgvZ8rTMV8GhpW71aVzkQWy7D37TTDuLCpgmX"]}
       - STORAGE_LOG_CONTRACT_ADDRESS=${STORAGE_LOG_CONTRACT_ADDRESS:-0xbD2C3F0E65eDF5582141C35969d66e34629cC768} #A.K.A flow contract
@@ -115,12 +115,12 @@ services:
       - "${STORAGE_NETWORK_ENR_UDP_PORT}:${STORAGE_NETWORK_ENR_UDP_PORT:-1}/udp" # discovery
       - "${STORAGE_RPC_LISTEN_PORT}:5678" # rpc server port
   storage-cli:
-    image: ${ZG_DOCKER_IMAGE_REGISTRY:-ghcr.io/emberstake/0g-docker}/storage-cli:${STORAGE_CLI_TAG:-v0.6.2}
+    image: ${ZG_DOCKER_IMAGE_REGISTRY:-ghcr.io/emberstake/0g-docker}/storage-cli:${STORAGE_CLI_TAG:-v0.6.9}
     build:
       dockerfile: docker/storage-cli/Dockerfile
       context: .
       args:
-        - STORAGE_CLI_TAG=${STORAGE_CLI_TAG:-v0.6.2}
+        - STORAGE_CLI_TAG=${STORAGE_CLI_TAG:-v0.6.9}
     environment:
       - STORAGE_LOG_CONTRACT_ADDRESS=${STORAGE_LOG_CONTRACT_ADDRESS:-0xbD2C3F0E65eDF5582141C35969d66e34629cC768} #A.K.A flow contract
       - BLOCKCHAIN_RPC_ENDPOINT=${STORAGE_BLOCKCHAIN_RPC_ENDPOINT:-http://node:8545}
