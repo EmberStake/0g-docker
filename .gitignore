@@ -3,3 +3,4 @@
 !.env.sample
 /docker-compose.*.yml
 /temp/
+.qodo
