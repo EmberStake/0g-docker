@@ -18,3 +18,6 @@ RUN make build-release LINK_STATICALLY=true
 FROM ${TRUSTED_PREVIOUS_IMAGE} AS runtime
 ARG NODE_TAG
 COPY --chown=zerog:zerog --from=upgrade /root/0g-chain/out/linux/0gchaind $DAEMON_HOME/cosmovisor/upgrades/$NODE_TAG/bin/
+
+# THE NEXT LINE IS TEMPRORALY only on for this version. As this is a hotfix not a hardfork, we replace the v0.5.0 binary with the latest version
+COPY --chown=zerog:zerog --from=upgrade /root/0g-chain/out/linux/0gchaind $DAEMON_HOME/cosmovisor/upgrades/v0.5.0/bin/
