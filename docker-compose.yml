@@ -1,11 +1,12 @@
 services:
   node:
-    image: ${ZG_DOCKER_IMAGE_REGISTRY:-ghcr.io/emberstake/0g-docker}/node:${NODE_TAG:-v0.5.0}
+    image: ${ZG_DOCKER_IMAGE_REGISTRY:-ghcr.io/emberstake/0g-docker}/node:${NODE_TAG:-v0.5.2}
     build:
       dockerfile: docker/node/Dockerfile
       context: .
       args:
-        - TRUSTED_PREVIOUS_IMAGE=${ZG_DOCKER_TRUSTED_PREVIOUS_NODE_IMAGE:-ghcr.io/emberstake/0g-docker/node:v0.4.0}
+        - TRUSTED_PREVIOUS_IMAGE=${ZG_DOCKER_TRUSTED_PREVIOUS_NODE_IMAGE:-ghcr.io/emberstake/0g-docker/node:v0.5.0}
+        - NODE_TAG=${NODE_TAG:-v0.5.2}
     restart: unless-stopped
     profiles:
       - node
