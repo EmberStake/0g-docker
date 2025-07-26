@@ -32,7 +32,7 @@ services:
       --chaincfg.block-store-service.enabled
       --chaincfg.node-api.enabled
       --chaincfg.node-api.logging
-      --chaincfg.node-api.address "tcp://0.0.0.0:3500"
+      --chaincfg.node-api.address "0.0.0.0:3500"
       --pruning=nothing
       --home "/home/zerog/.0gchain"
       --chaincfg.engine.rpc-dial-url "http://geth:8551"
@@ -40,8 +40,8 @@ services:
       --proxy_app "tcp://0.0.0.0:26658"
       --p2p.laddr "tcp://0.0.0.0:26656"
       --p2p.seeds ${SEEDS}
-      --p2p.persistent_peers ${PERSISTENT_PEERS}
       --p2p.external_address ${EXTERNAL_IP}:${P2P_PORT}
+      --p2p.persistent_peers ${PERSISTENT_PEERS:-""}
 
     volumes:
       - type: bind
@@ -83,11 +83,10 @@ services:
         max-file: "5"
     command: >
       --config geth-config.toml
+      --nat stun:${EXTERNAL_IP}:${P2P_PORT}
       --bootnodes ${GETH_BOOT_NODES:-enode://de7b86d8ac452b1413983049c20eafa2ea0851a3219c2cc12649b971c1677bd83fe24c5331e078471e52a94d95e8cde84cb9d866574fec957124e57ac6056699@8.218.88.60:30303}
       --datadir /home/zerog/geth_home
-      --authrpc.addr 0.0.0.0
       --networkid 16601
-      --nat stun:${EXTERNAL_IP}:${P2P_PORT}
     volumes:
       - type: bind
         source: ./configs/geth/init.sh
