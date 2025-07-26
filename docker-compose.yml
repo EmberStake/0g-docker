@@ -1,12 +1,11 @@
 services:
   node:
-    image: ${ZG_DOCKER_IMAGE_REGISTRY:-ghcr.io/emberstake/0g-docker}/node:${NODE_TAG:-v0.5.3}
+    image: ${ZG_DOCKER_IMAGE_REGISTRY:-ghcr.io/emberstake/0g-docker}/node:${NODE_TAG:-v1.2.0}
     build:
       dockerfile: docker/node/Dockerfile
       context: .
       args:
-        - TRUSTED_PREVIOUS_IMAGE=${ZG_DOCKER_TRUSTED_PREVIOUS_NODE_IMAGE:-ghcr.io/emberstake/0g-docker/node:v0.5.2}
-        - NODE_TAG=${NODE_TAG:-v0.5.3}
+        - NODE_TAG=${NODE_TAG:-v1.2.0}
     restart: unless-stopped
     profiles:
       - node
@@ -16,49 +15,34 @@ services:
     environment:
       - GOGC=${NODE_GOGC:-900}
       - GOMEMLIMIT=${NODE_GOMEMLIMIT:-40GiB}
-      - CHAIN_ID=${NODE_CHAIN_ID:-zgtendermint_16600-2}
     env_file:
       - .env
     logging:
       options:
         max-size: "12m"
         max-file: "5"
-    command:
-      - run
-      - start
-      - --log_level
-      - ${NODE_LOG_LEVEL:-info}
-      - --log_output_console
-      - --api.enable
-      - --grpc.enable
-      - --grpc.address
-      - "0.0.0.0:9090"
-      - --grpc-web.enable
-      - --grpc-web.address
-      - "0.0.0.0:9091"
-      - --json-rpc.enable
-      - --json-rpc.address
-      - "0.0.0.0:8545"
-      - --json-rpc.ws-address
-      - "0.0.0.0:8546"
-      - --json-rpc.api
-      - eth,txpool,personal,net,debug,web3
-      - --json-rpc.block-range-cap
-      - "20000"
-      - --json-rpc.logs-cap
-      - "20000"
-      - --proxy_app
-      - "tcp://0.0.0.0:26658"
-      - --p2p.laddr
-      - "tcp://0.0.0.0:26656"
-      - --p2p.seeds
-      - ${SEEDS}
-      - --p2p.persistent_peers
-      - ${PERSISTENT_PEERS}
-      - --p2p.external-address
-      - ${EXTERNAL_IP}:${P2P_PORT}
-      - --rpc.laddr
-      - "tcp://0.0.0.0:26657"
+    command: >
+      run
+      start
+      --rpc.laddr "tcp://0.0.0.0:26657"
+      --chaincfg.chain-spec "devnet"
+      --chaincfg.kzg.trusted-setup-path=/home/zerog/.0gchain/config/kzg-trusted-setup.json
+      --chaincfg.engine.jwt-secret-path=/home/zerog/.0gchain/config/jwt-secret.hex
+      --chaincfg.kzg.implementation=crate-crypto/go-kzg-4844
+      --chaincfg.block-store-service.enabled
+      --chaincfg.node-api.enabled
+      --chaincfg.node-api.logging
+      --chaincfg.node-api.address "tcp://0.0.0.0:3500"
+      --pruning=nothing
+      --home "/home/zerog/.0gchain"
+      --chaincfg.engine.rpc-dial-url "http://geth:8551"
+      --chaincfg.logger.log-level ${NODE_LOG_LEVEL:-info}
+      --proxy_app "tcp://0.0.0.0:26658"
+      --p2p.laddr "tcp://0.0.0.0:26656"
+      --p2p.seeds ${SEEDS}
+      --p2p.persistent_peers ${PERSISTENT_PEERS}
+      --p2p.external_address ${EXTERNAL_IP}:${P2P_PORT}
+
     volumes:
       - type: bind
         source: ./configs/node/init.sh
@@ -78,6 +62,40 @@ services:
       - "${RPC_PORT}:26657"
       - "${API_JSON_RPC_PORT}:8545"
       - "${LCD_PORT}:1317"
+  geth:
+    image: ${ZG_DOCKER_IMAGE_REGISTRY:-ghcr.io/emberstake/0g-docker}/geth:${NODE_TAG:-v1.2.0}
+    build:
+      dockerfile: docker/geth/Dockerfile
+      context: .
+      args:
+        - NODE_TAG=${NODE_TAG:-v1.2.0}
+    restart: unless-stopped
+    profiles:
+      - node
+    working_dir: /home/zerog
+    networks:
+      og:
+    env_file:
+      - .env
+    logging:
+      options:
+        max-size: "12m"
+        max-file: "5"
+    command: >
+      --config geth-config.toml
+      --bootnodes ${GETH_BOOT_NODES:-enode://de7b86d8ac452b1413983049c20eafa2ea0851a3219c2cc12649b971c1677bd83fe24c5331e078471e52a94d95e8cde84cb9d866574fec957124e57ac6056699@8.218.88.60:30303}
+      --datadir /home/zerog/geth_home
+      --authrpc.addr 0.0.0.0
+      --networkid 16601
+      --nat stun:${EXTERNAL_IP}:${P2P_PORT}
+    volumes:
+      - type: bind
+        source: ./configs/geth/init.sh
+        target: /init.sh
+        read_only: true
+      - type: volume
+        source: geth_data
+        target: /home/zerog/geth_home
   storage-node:
     image: ${ZG_DOCKER_IMAGE_REGISTRY:-ghcr.io/emberstake/0g-docker}/storage-node:${STORAGE_NODE_TAG:-v0.8.7}
     build:
@@ -303,6 +321,7 @@ volumes:
   node_config:
   node_data:
   node_keyring:
+  geth_data:
   storage_data:
   storage_config:
   kv_data:
