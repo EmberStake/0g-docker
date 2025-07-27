@@ -262,12 +262,12 @@ services:
         source: da_node_config
         target: /config
   da-client:
-    image: ${ZG_DOCKER_IMAGE_REGISTRY:-ghcr.io/emberstake/0g-docker}/da-client:${DA_CLIENT_TAG:-5476fb1}
+    image: ${ZG_DOCKER_IMAGE_REGISTRY:-ghcr.io/emberstake/0g-docker}/da-client:${DA_CLIENT_TAG:-00dffb0}
     build:
       dockerfile: docker/da-client/Dockerfile
       context: .
       args:
-        - DA_CLIENT_TAG=${DA_CLIENT_TAG:-5476fb1}
+        - DA_CLIENT_TAG=${DA_CLIENT_TAG:-00dffb0}
     ports:
       - "${DA_CLIENT_LISTEN_PORT}:51001" # grpc listen port
     restart: unless-stopped
@@ -296,7 +296,7 @@ services:
       --chain.gas-limit 2000000
       --combined-server.use-memory-db
       --combined-server.storage.kv-db-path /kv
-      --combined-server.storage.time-to-expire 300
+      --combined-server.storage.time-to-expire 2592000
       --disperser-server.grpc-port 51001
       --batcher.da-entrance-contract 0xE75A073dA5bb7b0eC622170Fd268f35E675a957B
       --batcher.da-signers-contract 0x0000000000000000000000000000000000001000
@@ -311,8 +311,8 @@ services:
       --batcher.signing-interval 3s
       --batcher.signed-pull-interval 20s
       --encoder-socket ${DA_CLIENT_ENCODER_SOCKET}
-      --encoding-timeout 600s
-      --signing-timeout 600s
+      --encoding-timeout 300s
+      --signing-timeout 60s
       --chain-read-timeout 12s
       --chain-write-timeout 13s
       --combined-server.log.level-file trace
