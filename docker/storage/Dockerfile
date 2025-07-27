@@ -1,7 +1,7 @@
 FROM rust:1.88.0-trixie AS rust-builder
 WORKDIR /root
 # The version should be matching the version set above
-RUN rustup toolchain install 1.78.0 --profile minimal
+RUN rustup toolchain install 1.88.0 --profile minimal
 
 RUN apt-get update && apt-get install -y \
     build-essential \

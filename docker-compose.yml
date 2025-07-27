@@ -60,7 +60,6 @@ services:
     ports:
       - "${P2P_PORT}:26656" # p2p
       - "${RPC_PORT}:26657"
-      - "${API_JSON_RPC_PORT}:8545"
       - "${LCD_PORT}:1317"
   geth:
     image: ${ZG_DOCKER_IMAGE_REGISTRY:-ghcr.io/emberstake/0g-docker}/geth:${NODE_TAG:-v1.2.0}
@@ -95,6 +94,8 @@ services:
       - type: volume
         source: geth_data
         target: /home/zerog/geth_home
+    ports:
+      - "${EVM_JSON_RPC_PORT}:8545"
   storage-node:
     image: ${ZG_DOCKER_IMAGE_REGISTRY:-ghcr.io/emberstake/0g-docker}/storage-node:${STORAGE_NODE_TAG:-v1.1.0}
     build:
