@@ -1,13 +1,13 @@
-FROM rust:1.79.0-bookworm AS rust-builder
+FROM rust:1.88.0-trixie AS rust-builder
+
 WORKDIR /root
 # The version should be matching the version set above
-RUN rustup toolchain install nightly-2024-02-04-x86_64-unknown-linux-gnu
-RUN rustup component add --toolchain nightly-2024-02-04-x86_64-unknown-linux-gnu rustfmt
-RUN rustup target add x86_64-unknown-linux-gnu
+RUN rustup toolchain install 1.88.0 --profile minimal
+
 
 RUN apt-get update && apt-get install -y \
     build-essential \
-    clang-tools-14 \
+    clang-tools-17 \
     git \
     libssl-dev \
     pkg-config \
@@ -26,7 +26,8 @@ RUN ./dev_support/download_params.sh
 # Build
 RUN cargo build --release
 
-FROM debian:bookworm-slim AS runtime
+FROM debian:trixie-slim AS runtime
+
 RUN apt-get update && apt-get install -y \
     curl \
     nano \

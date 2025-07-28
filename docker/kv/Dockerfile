@@ -1,11 +1,12 @@
-FROM rust:1.78.0-bookworm AS rust-builder
+FROM rust:1.88.0-trixie AS rust-builder
+
 WORKDIR /root
 # The version should be matching the version set above
-RUN rustup toolchain install 1.78.0 --profile minimal
+RUN rustup toolchain install 1.88.0 --profile minimal
 
 RUN apt-get update && apt-get install -y \
     build-essential \
-    clang-tools-14 \
+    clang-tools-17 \
     git \
     libssl-dev \
     pkg-config \
@@ -20,7 +21,7 @@ WORKDIR 0g-storage-kv
 RUN git submodule update --init
 RUN cargo build --release
 
-FROM debian:bookworm-slim AS runtime
+FROM debian:trixie-slim AS runtime
 RUN apt-get update && apt-get install -y \
     curl \
     nano \

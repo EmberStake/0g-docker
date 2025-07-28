@@ -4,7 +4,6 @@ This repository is a complete toolkit to run [Zero-Gravity](https://0g.ai/) Node
 - Storage Node
 - Storage KV
 - DA Client
-- DA Encoder
 - DA Node
 
 and more to come

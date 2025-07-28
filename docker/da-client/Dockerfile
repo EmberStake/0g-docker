@@ -1,4 +1,4 @@
-FROM golang:1.22.2-bookworm as builder
+FROM golang:1.22.2-bookworm AS builder
 USER root
 RUN apt-get update && apt-get install -y \
     make \
@@ -15,6 +15,7 @@ RUN git checkout $DA_CLIENT_TAG
 RUN make build
 
 FROM debian:bookworm-slim AS runtime
+
 RUN apt-get update && apt-get install -y \
     curl \
     nano \
