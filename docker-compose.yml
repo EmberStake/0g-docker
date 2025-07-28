@@ -28,11 +28,13 @@ services:
       --chaincfg.chain-spec "devnet"
       --chaincfg.kzg.trusted-setup-path=/home/zerog/.0gchain/config/kzg-trusted-setup.json
       --chaincfg.engine.jwt-secret-path=/home/zerog/.0gchain/config/jwt-secret.hex
+      --chaincfg.engine.rpc-dial-url "http://geth:8551"
       --chaincfg.kzg.implementation=crate-crypto/go-kzg-4844
       --chaincfg.block-store-service.enabled
       --chaincfg.node-api.enabled
       --chaincfg.node-api.logging
       --chaincfg.node-api.address "0.0.0.0:3500"
+      
       --pruning=nothing
       --home "/home/zerog/.0gchain"
       --chaincfg.engine.rpc-dial-url "http://geth:8551"
