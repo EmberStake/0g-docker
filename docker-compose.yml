@@ -321,7 +321,7 @@ services:
         target: /init.sh
         read_only: true
     ports:
-      - "${ALIGNMENT_NODE_PORT}:${ALIGNMENT_NODE_PORT}" # p2p
+      - "${ALIGNMENT_NODE_PORT}:${ALIGNMENT_NODE_PORT:-34567}"
 
 volumes:
   node_config:
