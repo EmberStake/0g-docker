@@ -11,8 +11,6 @@ RUN apt-get update && apt-get install -y \
 
 WORKDIR /root
 
-# Install Cosmovisor
-RUN go install cosmossdk.io/tools/cosmovisor/cmd/cosmovisor@v1.6.0
 # Make Genesis binaries
 RUN wget -O galileo.tar.gz https://github.com/0glabs/0gchain-NG/releases/download/$NODE_TAG/galileo-$NODE_TAG.tar.gz \
      && tar -xzvf galileo.tar.gz -C /root \
@@ -37,7 +35,7 @@ RUN useradd -m zerog
 USER zerog
 WORKDIR /home/zerog
 
-# Set Cosmovisor env variables
+# Set GETH env variables
 ENV GETH_HOME=/home/zerog/geth_home
 RUN mkdir -p $GETH_HOME
 
